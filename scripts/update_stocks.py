@@ -12,6 +12,7 @@ from pathlib import Path
 import pandas as pd
 import requests
 import yfinance as yf
+from kiyohara_analysis import evaluate, load_documents_for_candidates
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -76,6 +77,20 @@ def init_db(conn: sqlite3.Connection) -> None:
           financial_date TEXT, error TEXT, fetched_at TEXT NOT NULL
         )
     """)
+    additions = {
+        "cash": "REAL", "inventory": "REAL", "receivables": "REAL",
+        "operating_cash_flow": "REAL", "net_income": "REAL",
+        "cash_neutral_per": "REAL", "kiyohara_score": "INTEGER",
+        "kiyohara_verdict": "TEXT", "kiyohara_confidence": "TEXT",
+        "kiyohara_summary": "TEXT", "kiyohara_positives": "TEXT",
+        "kiyohara_cautions": "TEXT", "source_name": "TEXT",
+        "source_date": "TEXT", "source_doc_id": "TEXT",
+        "analysis_updated_at": "TEXT",
+    }
+    existing = {row[1] for row in conn.execute("PRAGMA table_info(stocks)")}
+    for column, kind in additions.items():
+        if column not in existing:
+            conn.execute(f"ALTER TABLE stocks ADD COLUMN {column} {kind}")
     conn.commit()
 
 
@@ -119,6 +134,12 @@ def collect(stock: dict, prices: dict[str, float | None]) -> dict:
         sheet = ticker.quarterly_balance_sheet
         if sheet is None or sheet.empty:
             sheet = ticker.balance_sheet
+        cashflow = ticker.quarterly_cashflow
+        if cashflow is None or cashflow.empty:
+            cashflow = ticker.cashflow
+        income = ticker.quarterly_income_stmt
+        if income is None or income.empty:
+            income = ticker.income_stmt
         price = prices.get(stock["ticker"]) or finite(info.get("currentPrice")) or finite(info.get("regularMarketPrice"))
         shares = finite(info.get("sharesOutstanding"))
         cap = finite(info.get("marketCap")) or (price * shares if price and shares else None)
@@ -128,6 +149,11 @@ def collect(stock: dict, prices: dict[str, float | None]) -> dict:
         securities = statement_value(sheet, ["Investmentin Financial Assets", "Available For Sale Securities", "Other Investments"])
         securities = securities or 0.0
         liabilities = statement_value(sheet, ["Total Liabilities Net Minority Interest", "Total Liabilities"])
+        cash = statement_value(sheet, ["Cash Cash Equivalents And Short Term Investments", "Cash And Cash Equivalents", "Cash"])
+        inventory = statement_value(sheet, ["Inventory", "Inventories"])
+        receivables = statement_value(sheet, ["Receivables", "Accounts Receivable", "Accounts Receivable Net"])
+        operating_cash_flow = statement_value(cashflow, ["Operating Cash Flow", "Total Cash From Operating Activities"])
+        net_income = statement_value(income, ["Net Income", "Net Income Common Stockholders", "Net Income Applicable To Common Shares"])
         net_cash = current_assets + securities * 0.7 - liabilities if current_assets is not None and liabilities is not None else None
         ratio = net_cash / cap if net_cash is not None and cap and cap > 0 else None
         passed = bool(
@@ -140,12 +166,14 @@ def collect(stock: dict, prices: dict[str, float | None]) -> dict:
         financial_date = str(sheet.columns[0].date()) if sheet is not None and not sheet.empty else None
     except Exception as exc:
         price = cap = per = pbr = current_assets = liabilities = net_cash = ratio = None
-        securities = None
+        securities = cash = inventory = receivables = operating_cash_flow = net_income = None
         passed = False
         financial_date = None
         error = f"{type(exc).__name__}: {str(exc)[:180]}"
     return {**stock, "price": price, "market_cap": cap, "per": per, "pbr": pbr,
             "current_assets": current_assets, "investment_securities": securities,
+            "cash": cash, "inventory": inventory, "receivables": receivables,
+            "operating_cash_flow": operating_cash_flow, "net_income": net_income,
             "liabilities": liabilities, "net_cash": net_cash, "net_cash_ratio": ratio,
             "passed": passed, "financial_date": financial_date, "error": error,
             "fetched_at": now()}
@@ -153,9 +181,12 @@ def collect(stock: dict, prices: dict[str, float | None]) -> dict:
 
 def save(conn: sqlite3.Connection, row: dict) -> None:
     conn.execute("""
-      INSERT INTO stocks VALUES (:code,:name,:market,:price,:market_cap,:per,:pbr,
+      INSERT INTO stocks (code,name,market,price,market_cap,per,pbr,
+        current_assets,investment_securities,liabilities,net_cash,net_cash_ratio,
+        passed,financial_date,error,fetched_at,cash,inventory,receivables,operating_cash_flow,net_income)
+      VALUES (:code,:name,:market,:price,:market_cap,:per,:pbr,
         :current_assets,:investment_securities,:liabilities,:net_cash,:net_cash_ratio,
-        :passed,:financial_date,:error,:fetched_at)
+        :passed,:financial_date,:error,:fetched_at,:cash,:inventory,:receivables,:operating_cash_flow,:net_income)
       ON CONFLICT(code) DO UPDATE SET
         name=excluded.name, market=excluded.market, price=excluded.price,
         market_cap=excluded.market_cap, per=excluded.per, pbr=excluded.pbr,
@@ -163,7 +194,21 @@ def save(conn: sqlite3.Connection, row: dict) -> None:
         liabilities=excluded.liabilities, net_cash=excluded.net_cash,
         net_cash_ratio=excluded.net_cash_ratio, passed=excluded.passed,
         financial_date=excluded.financial_date, error=excluded.error, fetched_at=excluded.fetched_at
+        ,cash=excluded.cash, inventory=excluded.inventory, receivables=excluded.receivables,
+        operating_cash_flow=excluded.operating_cash_flow, net_income=excluded.net_income
     """, row)
+
+
+def save_analysis(conn: sqlite3.Connection, code: str, analysis: dict) -> None:
+    conn.execute("""
+      UPDATE stocks SET cash_neutral_per=:cash_neutral_per,
+        kiyohara_score=:kiyohara_score, kiyohara_verdict=:kiyohara_verdict,
+        kiyohara_confidence=:kiyohara_confidence, kiyohara_summary=:kiyohara_summary,
+        kiyohara_positives=:kiyohara_positives, kiyohara_cautions=:kiyohara_cautions,
+        source_name=:source_name, source_date=:source_date, source_doc_id=:source_doc_id,
+        analysis_updated_at=:analysis_updated_at
+      WHERE code=:code
+    """, {**analysis, "code": code})
 
 
 def export(conn: sqlite3.Connection) -> list[dict]:
@@ -171,6 +216,11 @@ def export(conn: sqlite3.Connection) -> list[dict]:
     rows = [dict(r) for r in conn.execute("SELECT * FROM stocks ORDER BY net_cash_ratio DESC")]
     for row in rows:
         row["passed"] = bool(row["passed"])
+        for field in ("kiyohara_positives", "kiyohara_cautions"):
+            try:
+                row[field] = json.loads(row[field] or "[]")
+            except (TypeError, json.JSONDecodeError):
+                row[field] = []
     write_json(RESULTS_PATH, {"generated_at": now(), "stocks": rows})
     return rows
 
@@ -203,6 +253,7 @@ def main() -> None:
     for index, stock in enumerate(target, start=cursor + 1):
         row = collect(stock, prices)
         save(conn, row)
+        save_analysis(conn, row["code"], evaluate(row))
         conn.commit()
         failures += bool(row["error"])
         successes += not bool(row["error"])
@@ -211,6 +262,14 @@ def main() -> None:
                        "next_cursor": 0 if index >= total else index})
         write_json(STATUS_PATH, status)
         time.sleep(0.35)
+    conn.row_factory = sqlite3.Row
+    analysis_rows = [dict(r) for r in conn.execute("SELECT * FROM stocks")]
+    for row in analysis_rows:
+        row["passed"] = bool(row["passed"])
+    documents = load_documents_for_candidates(analysis_rows, DATA)
+    for row in analysis_rows:
+        save_analysis(conn, row["code"], evaluate(row, documents.get(row["code"])))
+    conn.commit()
     rows = export(conn)
     completed = end >= total
     all_failed = sum(1 for r in rows if r["error"])
