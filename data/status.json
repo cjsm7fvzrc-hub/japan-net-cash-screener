@@ -1,15 +1,14 @@
 {
-  "state": "waiting",
-  "message": "初回更新を待っています",
-  "total": 0,
-  "processed": 0,
-  "success": 0,
+  "state": "running",
+  "message": "次回の自動処理へ継続します",
+  "total": 4444,
+  "processed": 200,
+  "success": 200,
   "failed": 0,
-  "passed": 0,
-  "progress": 0,
-  "started_at": null,
-  "updated_at": null,
+  "passed": 1,
+  "progress": 4.5,
+  "started_at": "2026-08-19T11:51:51.946508Z",
+  "updated_at": "2026-08-19T11:55:15.435863Z",
   "completed_at": null,
-  "next_cursor": 0
+  "next_cursor": 200
 }
-
