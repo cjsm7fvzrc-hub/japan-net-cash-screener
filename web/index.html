@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>日本株ネットキャッシュ・スクリーナー</title><meta name="description" content="JPX全上場銘柄を対象に、保存済み財務データから割安株を抽出します。">
+<link rel="stylesheet" href="styles.css"></head>
+<body><header><nav><span class="logo">NC</span><b>日本株ネットキャッシュ・スクリーナー</b></nav>
+<div class="hero"><div><p class="eyebrow">AUTOMATED JAPAN STOCK SCREEN</p><h1>現金価値から、<br><em>割安株</em>を見つける。</h1><p>JPX公式の全上場銘柄を対象に、バックグラウンドで収集した保存済みデータを表示します。ページを閉じても更新処理は継続します。</p></div>
+<div class="formula"><small>SCREENING LOGIC</small><h2>ネットキャッシュ比率</h2><div>流動資産 ＋ 投資有価証券 × 70% − 負債<hr>時価総額</div><b>判定基準　1.00以上</b></div></div></header>
+<main><section class="criteria"><div><i>01</i><span>ネットキャッシュ比率</span><b>1.00以上</b></div><div><i>02</i><span>PER</span><b>10倍以下</b></div><div><i>03</i><span>PBR</span><b>1倍以下</b></div><div><i>04</i><span>時価総額</span><b>20億〜500億円未満</b></div><div><i>05</i><span>安全性</span><b>流動資産 ＞ 負債</b></div></section>
+<section class="statusPanel"><div class="statusTitle"><div><p class="eyebrow">BACKGROUND UPDATE</p><h2>データ更新状況</h2></div><span id="stateBadge">確認中</span></div><div class="statusGrid"><div><small>進捗</small><strong id="progressText">—</strong></div><div><small>処理済み</small><strong id="processed">—</strong></div><div><small>取得失敗</small><strong id="failed">—</strong></div><div><small>最終更新</small><strong id="updated">—</strong></div></div><div class="progress"><i id="progressBar"></i></div><p id="statusMessage">保存済みデータを読み込んでいます…</p></section>
+<section class="results"><div class="heading"><div><p class="eyebrow">SCREENING RESULTS</p><h2>抽出結果</h2><small id="dataTime"></small></div><div class="passCount"><span>全条件合格</span><b id="passCount">—</b></div></div>
+<div class="toolbar"><input id="search" type="search" placeholder="銘柄コード・会社名で検索"><label><input id="onlyPass" type="checkbox" checked> 合格銘柄のみ</label></div><div id="summary" class="summary"></div><div id="cards" class="cards"><div class="empty">データを読み込んでいます…</div></div></section></main>
+<footer>Yahoo Financeのデータには欠損・遅延・勘定科目差があり得ます。売買前に各社の最新IR資料で確認してください。本アプリは投資助言ではありません。</footer><script src="app.js"></script></body></html>
+

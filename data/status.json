@@ -1,0 +1,15 @@
+{
+  "state": "waiting",
+  "message": "初回更新を待っています",
+  "total": 0,
+  "processed": 0,
+  "success": 0,
+  "failed": 0,
+  "passed": 0,
+  "progress": 0,
+  "started_at": null,
+  "updated_at": null,
+  "completed_at": null,
+  "next_cursor": 0
+}
+
