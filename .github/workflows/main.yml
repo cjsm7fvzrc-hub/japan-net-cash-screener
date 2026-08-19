@@ -1,0 +1,92 @@
+name: Update and deploy stock screener
+
+on:
+  workflow_dispatch:
+    inputs:
+      reset:
+        description: 最初の銘柄から再取得する
+        required: false
+        type: boolean
+        default: false
+      batch_size:
+        description: 1回に取得する銘柄数
+        required: false
+        default: "200"
+  schedule:
+    - cron: "17 * * * *"
+  push:
+    branches:
+      - main
+    paths:
+      - "web/**"
+      - ".github/workflows/main.yml"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: stock-screener
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.event_name != 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Collect and save stock data
+        env:
+          BATCH_SIZE: ${{ inputs.batch_size || '200' }}
+          RESET_CURSOR: ${{ inputs.reset || 'false' }}
+        run: python scripts/update_stocks.py
+
+      - name: Commit stored results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/results.json data/status.json data/stocks.db
+          git diff --cached --quiet && exit 0
+          git commit -m "data: update stock screening results"
+          git push
+
+  deploy:
+    needs: update
+    if: always() && (needs.update.result == 'success' || needs.update.result == 'skipped')
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Prepare website
+        run: |
+          mkdir -p public/data
+          cp -R web/. public/
+          cp data/results.json data/status.json public/data/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4
