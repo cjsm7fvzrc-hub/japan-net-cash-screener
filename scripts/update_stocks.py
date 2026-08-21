@@ -160,7 +160,7 @@ def collect(stock: dict, prices: dict[str, float | None]) -> dict:
             ratio is not None and ratio >= 1
             and per is not None and 0 < per <= 10
             and pbr is not None and 0 < pbr <= 1
-            and cap is not None and 2_000_000_000 <= cap < 50_000_000_000
+            and cap is not None and cap >= 2_000_000_000
             and current_assets is not None and liabilities is not None and current_assets > liabilities
         )
         financial_date = str(sheet.columns[0].date()) if sheet is not None and not sheet.empty else None
