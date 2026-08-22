@@ -23,6 +23,11 @@ class TechnicalAnalysisTests(unittest.TestCase):
         self.assertEqual(result["technical_trend"], "下降")
         self.assertIn("1年最大ドローダウンが40%超", result["technical_cautions"])
 
+    def test_missing_data_is_not_scored_as_neutral(self):
+        result = summarize_technicals({})
+        self.assertIsNone(result["technical_score"])
+        self.assertEqual(result["technical_trend"], "未取得")
+
 
 if __name__ == "__main__":
     unittest.main()
