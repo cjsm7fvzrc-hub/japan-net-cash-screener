@@ -13,6 +13,7 @@ import pandas as pd
 import requests
 import yfinance as yf
 from kiyohara_analysis import evaluate, load_documents_for_candidates
+from tenbagger_analysis import evaluate_tenbagger
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -86,6 +87,11 @@ def init_db(conn: sqlite3.Connection) -> None:
         "kiyohara_cautions": "TEXT", "source_name": "TEXT",
         "source_date": "TEXT", "source_doc_id": "TEXT",
         "analysis_updated_at": "TEXT",
+        "revenue": "REAL", "revenue_cagr_3y": "REAL",
+        "operating_income": "REAL", "operating_income_cagr_3y": "REAL",
+        "quarterly_revenue_growth": "REAL", "operating_margin": "REAL",
+        "operating_margin_change": "REAL", "return_52w": "REAL",
+        "distance_from_52w_high": "REAL", "volume_ratio_20d": "REAL",
     }
     existing = {row[1] for row in conn.execute("PRAGMA table_info(stocks)")}
     for column, kind in additions.items():
@@ -109,24 +115,53 @@ def statement_value(sheet: pd.DataFrame, names: list[str]):
     return None
 
 
-def price_map(stocks: list[dict]) -> dict[str, float | None]:
+def statement_series(sheet: pd.DataFrame, names: list[str]) -> list[float | None]:
+    if sheet is None or sheet.empty:
+        return []
+    for name in names:
+        if name in sheet.index:
+            values = sheet.loc[name]
+            if not hasattr(values, "iloc"):
+                return [finite(values)]
+            return [finite(value) for value in values]
+    return []
+
+
+def growth(latest, oldest, years: int):
+    if latest is None or oldest is None or latest <= 0 or oldest <= 0 or years <= 0:
+        return None
+    return (latest / oldest) ** (1 / years) - 1
+
+
+def price_map(stocks: list[dict]) -> dict[str, dict]:
     tickers = [s["ticker"] for s in stocks]
     try:
-        frame = yf.download(tickers, period="5d", interval="1d", group_by="ticker", threads=True, progress=False)
+        frame = yf.download(tickers, period="1y", interval="1d", group_by="ticker", threads=True, progress=False)
     except Exception:
         return {}
     result = {}
     for ticker in tickers:
         try:
-            series = frame[ticker]["Close"] if len(tickers) > 1 else frame["Close"]
-            series = series.dropna()
-            result[ticker] = finite(series.iloc[-1]) if not series.empty else None
+            stock_frame = frame[ticker] if len(tickers) > 1 else frame
+            series = stock_frame["Close"].dropna()
+            volume = stock_frame["Volume"].dropna()
+            latest = finite(series.iloc[-1]) if not series.empty else None
+            first = finite(series.iloc[0]) if not series.empty else None
+            high = finite(series.max()) if not series.empty else None
+            recent_volume = finite(volume.tail(5).mean()) if len(volume) >= 5 else None
+            normal_volume = finite(volume.tail(20).mean()) if len(volume) >= 20 else None
+            result[ticker] = {
+                "price": latest,
+                "return_52w": latest / first - 1 if latest and first else None,
+                "distance_from_52w_high": latest / high - 1 if latest and high else None,
+                "volume_ratio_20d": recent_volume / normal_volume if recent_volume and normal_volume else None,
+            }
         except Exception:
-            result[ticker] = None
+            result[ticker] = {}
     return result
 
 
-def collect(stock: dict, prices: dict[str, float | None]) -> dict:
+def collect(stock: dict, prices: dict[str, dict]) -> dict:
     ticker = yf.Ticker(stock["ticker"])
     error = ""
     try:
@@ -140,7 +175,8 @@ def collect(stock: dict, prices: dict[str, float | None]) -> dict:
         income = ticker.quarterly_income_stmt
         if income is None or income.empty:
             income = ticker.income_stmt
-        price = prices.get(stock["ticker"]) or finite(info.get("currentPrice")) or finite(info.get("regularMarketPrice"))
+        market = prices.get(stock["ticker"], {})
+        price = market.get("price") or finite(info.get("currentPrice")) or finite(info.get("regularMarketPrice"))
         shares = finite(info.get("sharesOutstanding"))
         cap = finite(info.get("marketCap")) or (price * shares if price and shares else None)
         per = finite(info.get("trailingPE"))
@@ -154,6 +190,26 @@ def collect(stock: dict, prices: dict[str, float | None]) -> dict:
         receivables = statement_value(sheet, ["Receivables", "Accounts Receivable", "Accounts Receivable Net"])
         operating_cash_flow = statement_value(cashflow, ["Operating Cash Flow", "Total Cash From Operating Activities"])
         net_income = statement_value(income, ["Net Income", "Net Income Common Stockholders", "Net Income Applicable To Common Shares"])
+        annual_income = ticker.income_stmt
+        revenues = statement_series(annual_income, ["Total Revenue", "Operating Revenue"])
+        operating_incomes = statement_series(annual_income, ["Operating Income"])
+        quarterly_revenues = statement_series(income, ["Total Revenue", "Operating Revenue"])
+        revenue = revenues[0] if revenues else None
+        operating_income = operating_incomes[0] if operating_incomes else None
+        oldest_revenue_index = min(3, len(revenues) - 1) if revenues else 0
+        oldest_operating_index = min(3, len(operating_incomes) - 1) if operating_incomes else 0
+        revenue_cagr_3y = growth(revenue, revenues[oldest_revenue_index], oldest_revenue_index) if revenues else None
+        operating_income_cagr_3y = growth(operating_income, operating_incomes[oldest_operating_index], oldest_operating_index) if operating_incomes else None
+        quarterly_revenue_growth = (
+            quarterly_revenues[0] / quarterly_revenues[4] - 1
+            if len(quarterly_revenues) >= 5 and quarterly_revenues[0] and quarterly_revenues[4] else None
+        )
+        operating_margin = operating_income / revenue if operating_income is not None and revenue else None
+        previous_margin = (
+            operating_incomes[1] / revenues[1]
+            if len(operating_incomes) > 1 and len(revenues) > 1 and operating_incomes[1] is not None and revenues[1] else None
+        )
+        operating_margin_change = operating_margin - previous_margin if operating_margin is not None and previous_margin is not None else None
         net_cash = current_assets + securities * 0.7 - liabilities if current_assets is not None and liabilities is not None else None
         ratio = net_cash / cap if net_cash is not None and cap and cap > 0 else None
         passed = bool(
@@ -167,6 +223,9 @@ def collect(stock: dict, prices: dict[str, float | None]) -> dict:
     except Exception as exc:
         price = cap = per = pbr = current_assets = liabilities = net_cash = ratio = None
         securities = cash = inventory = receivables = operating_cash_flow = net_income = None
+        revenue = revenue_cagr_3y = operating_income = operating_income_cagr_3y = None
+        quarterly_revenue_growth = operating_margin = operating_margin_change = None
+        market = {}
         passed = False
         financial_date = None
         error = f"{type(exc).__name__}: {str(exc)[:180]}"
@@ -175,6 +234,13 @@ def collect(stock: dict, prices: dict[str, float | None]) -> dict:
             "cash": cash, "inventory": inventory, "receivables": receivables,
             "operating_cash_flow": operating_cash_flow, "net_income": net_income,
             "liabilities": liabilities, "net_cash": net_cash, "net_cash_ratio": ratio,
+            "revenue": revenue, "revenue_cagr_3y": revenue_cagr_3y,
+            "operating_income": operating_income, "operating_income_cagr_3y": operating_income_cagr_3y,
+            "quarterly_revenue_growth": quarterly_revenue_growth,
+            "operating_margin": operating_margin, "operating_margin_change": operating_margin_change,
+            "return_52w": market.get("return_52w"),
+            "distance_from_52w_high": market.get("distance_from_52w_high"),
+            "volume_ratio_20d": market.get("volume_ratio_20d"),
             "passed": passed, "financial_date": financial_date, "error": error,
             "fetched_at": now()}
 
@@ -183,10 +249,14 @@ def save(conn: sqlite3.Connection, row: dict) -> None:
     conn.execute("""
       INSERT INTO stocks (code,name,market,price,market_cap,per,pbr,
         current_assets,investment_securities,liabilities,net_cash,net_cash_ratio,
-        passed,financial_date,error,fetched_at,cash,inventory,receivables,operating_cash_flow,net_income)
+        passed,financial_date,error,fetched_at,cash,inventory,receivables,operating_cash_flow,net_income,
+        revenue,revenue_cagr_3y,operating_income,operating_income_cagr_3y,quarterly_revenue_growth,
+        operating_margin,operating_margin_change,return_52w,distance_from_52w_high,volume_ratio_20d)
       VALUES (:code,:name,:market,:price,:market_cap,:per,:pbr,
         :current_assets,:investment_securities,:liabilities,:net_cash,:net_cash_ratio,
-        :passed,:financial_date,:error,:fetched_at,:cash,:inventory,:receivables,:operating_cash_flow,:net_income)
+        :passed,:financial_date,:error,:fetched_at,:cash,:inventory,:receivables,:operating_cash_flow,:net_income,
+        :revenue,:revenue_cagr_3y,:operating_income,:operating_income_cagr_3y,:quarterly_revenue_growth,
+        :operating_margin,:operating_margin_change,:return_52w,:distance_from_52w_high,:volume_ratio_20d)
       ON CONFLICT(code) DO UPDATE SET
         name=excluded.name, market=excluded.market, price=excluded.price,
         market_cap=excluded.market_cap, per=excluded.per, pbr=excluded.pbr,
@@ -196,6 +266,12 @@ def save(conn: sqlite3.Connection, row: dict) -> None:
         financial_date=excluded.financial_date, error=excluded.error, fetched_at=excluded.fetched_at
         ,cash=excluded.cash, inventory=excluded.inventory, receivables=excluded.receivables,
         operating_cash_flow=excluded.operating_cash_flow, net_income=excluded.net_income
+        ,revenue=excluded.revenue, revenue_cagr_3y=excluded.revenue_cagr_3y,
+        operating_income=excluded.operating_income, operating_income_cagr_3y=excluded.operating_income_cagr_3y,
+        quarterly_revenue_growth=excluded.quarterly_revenue_growth,
+        operating_margin=excluded.operating_margin, operating_margin_change=excluded.operating_margin_change,
+        return_52w=excluded.return_52w, distance_from_52w_high=excluded.distance_from_52w_high,
+        volume_ratio_20d=excluded.volume_ratio_20d
     """, row)
 
 
@@ -221,6 +297,7 @@ def export(conn: sqlite3.Connection) -> list[dict]:
                 row[field] = json.loads(row[field] or "[]")
             except (TypeError, json.JSONDecodeError):
                 row[field] = []
+        row.update(evaluate_tenbagger(row))
     write_json(RESULTS_PATH, {"generated_at": now(), "stocks": rows})
     return rows
 

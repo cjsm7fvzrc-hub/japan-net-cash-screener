@@ -1,15 +1,237 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>日本株ネットキャッシュ・スクリーナー</title><meta name="description" content="JPX全上場銘柄を対象に、保存済み財務データから割安株を抽出します。">
-<link rel="stylesheet" href="styles.css"><style>
-.analysisInfo{background:#e7edd9;border-left:4px solid #739147;padding:16px 18px;margin:20px 0}.analysisInfo b{font-size:13px}.analysisInfo p{font-size:12px;line-height:1.7;margin:6px 0 0;color:#56655b}.kiyohara{margin-top:18px;border:1px solid #cbd2c5;background:#f8f8f3;padding:17px}.kHead{display:flex;justify-content:space-between;align-items:start}.kHead small{font-size:9px;letter-spacing:.15em;color:#708077}.kHead h4{font:500 22px Georgia,"Yu Mincho",serif;margin:4px 0}.score b{font:32px Georgia;color:var(--green)}.score span{font-size:10px;color:#718077}.verdictRow{display:flex;align-items:center;gap:9px;margin:8px 0}.verdict{padding:6px 9px;border-radius:3px;font-size:12px}.v4{background:#cde878}.v3{background:#dfe8b6}.v2{background:#f4df9b}.v1{background:#efd0c8}.verdictRow span{font-size:10px;color:#718077}.kSummary{font-size:12px;line-height:1.7}.evidence{display:grid;grid-template-columns:1fr 1fr;gap:13px}.evidence>div{background:#fff;border:1px solid #e0e2d9;padding:12px}.evidence b{font-size:11px}.evidence ul{margin:8px 0 0;padding-left:18px}.evidence li{font-size:10px;line-height:1.55;margin:3px 0}.positive::marker{color:#3a805b}.caution::marker{color:#b65a43}.source,.estimateNote{font-size:9px;color:#748078;line-height:1.5}.estimateNote{border-top:1px solid #d8ddd3;padding-top:8px}@media(max-width:800px){.evidence{grid-template-columns:1fr}}
-</style></head>
-<body><header><nav><span class="logo">NC</span><b>日本株ネットキャッシュ・スクリーナー</b></nav>
-<div class="hero"><div><p class="eyebrow">AUTOMATED JAPAN STOCK SCREEN</p><h1>現金価値から、<br><em>割安株</em>を見つける。</h1><p>JPX公式の全上場銘柄を対象に、バックグラウンドで収集した保存済みデータを表示します。ページを閉じても更新処理は継続します。</p></div>
-<div class="formula"><small>SCREENING LOGIC</small><h2>ネットキャッシュ比率</h2><div>流動資産 ＋ 投資有価証券 × 70% − 負債<hr>時価総額</div><b>判定基準　1.00以上</b></div></div></header>
-<main><section class="criteria"><div><i>01</i><span>ネットキャッシュ比率</span><b>1.00以上</b></div><div><i>02</i><span>PER</span><b>10倍以下</b></div><div><i>03</i><span>PBR</span><b>1倍以下</b></div><div><i>04</i><span>時価総額</span><b>20億円以上（上限なし）</b></div><div><i>05</i><span>安全性</span><b>流動資産 ＞ 負債</b></div></section>
-<section class="statusPanel"><div class="statusTitle"><div><p class="eyebrow">BACKGROUND UPDATE</p><h2>データ更新状況</h2></div><span id="stateBadge">確認中</span></div><div class="statusGrid"><div><small>進捗</small><strong id="progressText">—</strong></div><div><small>処理済み</small><strong id="processed">—</strong></div><div><small>取得失敗</small><strong id="failed">—</strong></div><div><small>最終更新</small><strong id="updated">—</strong></div></div><div class="progress"><i id="progressBar"></i></div><p id="statusMessage">保存済みデータを読み込んでいます…</p></section>
-<section class="results"><div class="heading"><div><p class="eyebrow">SCREENING RESULTS</p><h2>抽出結果</h2><small id="dataTime"></small></div><div class="passCount"><span>全条件合格</span><b id="passCount">—</b></div></div>
-<div class="analysisInfo"><b>清原式・推定評価について</b><p>公開された投資上の考え方を参考に、割安性、現金性資産の質、利益とキャッシュフロー、資本配分、割安の罠を機械的に評価します。本人の判断を再現・断定するものではありません。</p></div>
-<div class="toolbar"><input id="search" type="search" placeholder="銘柄コード・会社名で検索"><label><input id="onlyPass" type="checkbox" checked> 合格銘柄のみ</label></div><div id="summary" class="summary"></div><div id="cards" class="cards"><div class="empty">データを読み込んでいます…</div></div></section></main>
-<footer>Yahoo Financeのデータには欠損・遅延・勘定科目差があり得ます。売買前に各社の最新IR資料で確認してください。本アプリは投資助言ではありません。</footer><script src="app.js"></script></body></html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>日本株テンバガー候補・リサーチ</title>
+    <meta
+      name="description"
+      content="JPX全上場銘柄から、割安性・成長・変化・需給を統合して調査候補を抽出します。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .analysisInfo {
+        background: #e7edd9;
+        border-left: 4px solid #739147;
+        padding: 16px 18px;
+        margin: 20px 0;
+      }
+      .analysisInfo b {
+        font-size: 13px;
+      }
+      .analysisInfo p {
+        font-size: 12px;
+        line-height: 1.7;
+        margin: 6px 0 0;
+        color: #56655b;
+      }
+      .kiyohara {
+        margin-top: 18px;
+        border: 1px solid #cbd2c5;
+        background: #f8f8f3;
+        padding: 17px;
+      }
+      .kHead {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+      }
+      .kHead small {
+        font-size: 9px;
+        letter-spacing: 0.15em;
+        color: #708077;
+      }
+      .kHead h4 {
+        font:
+          500 22px Georgia,
+          "Yu Mincho",
+          serif;
+        margin: 4px 0;
+      }
+      .score b {
+        font: 32px Georgia;
+        color: var(--green);
+      }
+      .score span {
+        font-size: 10px;
+        color: #718077;
+      }
+      .verdictRow {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 8px 0;
+      }
+      .verdict {
+        padding: 6px 9px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+      .v4 {
+        background: #cde878;
+      }
+      .v3 {
+        background: #dfe8b6;
+      }
+      .v2 {
+        background: #f4df9b;
+      }
+      .v1 {
+        background: #efd0c8;
+      }
+      .verdictRow span {
+        font-size: 10px;
+        color: #718077;
+      }
+      .kSummary {
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .evidence {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 13px;
+      }
+      .evidence > div {
+        background: #fff;
+        border: 1px solid #e0e2d9;
+        padding: 12px;
+      }
+      .evidence b {
+        font-size: 11px;
+      }
+      .evidence ul {
+        margin: 8px 0 0;
+        padding-left: 18px;
+      }
+      .evidence li {
+        font-size: 10px;
+        line-height: 1.55;
+        margin: 3px 0;
+      }
+      .positive::marker {
+        color: #3a805b;
+      }
+      .caution::marker {
+        color: #b65a43;
+      }
+      .source,
+      .estimateNote {
+        font-size: 9px;
+        color: #748078;
+        line-height: 1.5;
+      }
+      .estimateNote {
+        border-top: 1px solid #d8ddd3;
+        padding-top: 8px;
+      }
+      @media (max-width: 800px) {
+        .evidence {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <span class="logo">10×</span><b>日本株テンバガー候補・リサーチ</b>
+      </nav>
+      <div class="hero">
+        <div>
+          <p class="eyebrow">TENBAGGER CANDIDATE RESEARCH</p>
+          <h1>割安だけでなく、<br /><em>変化の初動</em>を見つける。</h1>
+          <p>
+            JPX全上場銘柄を対象に、清原型の割安性、業績成長、利益率の変化、株価・出来高を統合。高得点は将来の上昇を保証するものではなく、優先的に調査すべき候補を示します。
+          </p>
+        </div>
+        <div class="formula">
+          <small>SCREENING LOGIC</small>
+          <h2>ネットキャッシュ比率</h2>
+          <div>
+            流動資産 ＋ 投資有価証券 × 70% − 負債
+            <hr />
+            時価総額
+          </div>
+          <b>判定基準　1.00以上</b>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="criteria">
+        <div><i>01</i><span>ネットキャッシュ比率</span><b>1.00以上</b></div>
+        <div><i>02</i><span>PER</span><b>10倍以下</b></div>
+        <div><i>03</i><span>PBR</span><b>1倍以下</b></div>
+        <div><i>04</i><span>時価総額</span><b>20億円以上（上限なし）</b></div>
+        <div><i>05</i><span>安全性</span><b>流動資産 ＞ 負債</b></div>
+      </section>
+      <section class="statusPanel">
+        <div class="statusTitle">
+          <div>
+            <p class="eyebrow">BACKGROUND UPDATE</p>
+            <h2>データ更新状況</h2>
+          </div>
+          <span id="stateBadge">確認中</span>
+        </div>
+        <div class="statusGrid">
+          <div><small>進捗</small><strong id="progressText">—</strong></div>
+          <div><small>処理済み</small><strong id="processed">—</strong></div>
+          <div><small>取得失敗</small><strong id="failed">—</strong></div>
+          <div><small>最終更新</small><strong id="updated">—</strong></div>
+        </div>
+        <div class="progress"><i id="progressBar"></i></div>
+        <p id="statusMessage">保存済みデータを読み込んでいます…</p>
+      </section>
+      <section class="results">
+        <div class="heading">
+          <div>
+            <p class="eyebrow">SCREENING RESULTS</p>
+            <h2>抽出結果</h2>
+            <small id="dataTime"></small>
+          </div>
+          <div class="passCount">
+            <span>全条件合格</span><b id="passCount">—</b>
+          </div>
+        </div>
+        <div class="modeTabs" role="tablist">
+          <button class="active" data-mode="tenbagger">テンバガー候補</button
+          ><button data-mode="kiyohara">清原型割安株</button
+          ><button data-mode="all">全銘柄</button>
+        </div>
+        <div class="analysisInfo">
+          <b>清原式・推定評価について</b>
+          <p>
+            公開された投資上の考え方を参考に、割安性、現金性資産の質、利益とキャッシュフロー、資本配分、割安の罠を機械的に評価します。本人の判断を再現・断定するものではありません。
+          </p>
+        </div>
+        <div class="toolbar">
+          <input
+            id="search"
+            type="search"
+            placeholder="銘柄コード・会社名で検索"
+          /><select id="candidateType">
+            <option value="">すべてのタイプ</option>
+            <option>清原型</option>
+            <option>成長初動型</option>
+            <option>変身型</option>
+            <option>継続観察</option></select
+          ><select id="sort">
+            <option value="tenbagger">テンバガー候補順</option>
+            <option value="kiyohara">清原式評価順</option>
+            <option value="growth">売上成長率順</option>
+            <option value="netcash">ネットキャッシュ比率順</option>
+          </select>
+        </div>
+        <div id="summary" class="summary"></div>
+        <div id="cards" class="cards">
+          <div class="empty">データを読み込んでいます…</div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      Yahoo
+      Financeのデータには欠損・遅延・勘定科目差があり得ます。売買前に各社の最新IR資料で確認してください。本アプリは投資助言ではありません。
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
