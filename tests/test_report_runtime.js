@@ -10,7 +10,7 @@ const html = window.StockReport.build({
   business_summary: "An English business description.",
   market_cap: 20e9, per: 12, pbr: 1.1, net_cash_ratio: 0.5,
   free_cash_flow: 2e9, return_on_equity: 0.15, return_on_assets: 0.08,
-  gross_margin: 0.4, debt_to_equity: 20, dividend_yield: 0.02,
+  gross_margin: 0.4, debt_to_equity: 20, dividend_yield: 2.72,
   operating_cash_flow: 3e9, revenue_cagr_3y: 0.15,
   operating_income_cagr_3y: 0.2, quarterly_revenue_growth: 0.18,
   quarterly_operating_income_growth: 0.25, operating_margin: 0.12,
@@ -33,6 +33,8 @@ assert.match(html, /HTMLをダウンロード/);
 assert.match(html, /弱気/);
 assert.match(html, /テスト&lt;&amp;&gt;/);
 assert.match(html, /情報技術／業務用ソフトウェア/);
+assert.match(html, /配当利回り<\/span><b>2\.72%/);
+assert.doesNotMatch(html, /272\.0%/);
 assert.match(html, /具体的な事業内容、収益構成/);
 assert.doesNotMatch(html, /An English business description/);
 assert.doesNotMatch(html, /EXECUTIVE SUMMARY/);
