@@ -12,6 +12,7 @@ from pathlib import Path
 import pandas as pd
 import requests
 import yfinance as yf
+from catalyst_analysis import evaluate_catalysts
 from kiyohara_analysis import evaluate, load_documents_for_candidates
 from tenbagger_analysis import evaluate_tenbagger
 
@@ -92,6 +93,10 @@ def init_db(conn: sqlite3.Connection) -> None:
         "quarterly_revenue_growth": "REAL", "operating_margin": "REAL",
         "operating_margin_change": "REAL", "return_52w": "REAL",
         "distance_from_52w_high": "REAL", "volume_ratio_20d": "REAL",
+        "quarterly_operating_income_growth": "REAL", "forward_eps_growth": "REAL",
+        "operating_profit_turnaround": "INTEGER",
+        "earnings_growth": "REAL", "trailing_eps": "REAL", "forward_eps": "REAL",
+        "sector": "TEXT", "industry": "TEXT", "company_website": "TEXT",
     }
     existing = {row[1] for row in conn.execute("PRAGMA table_info(stocks)")}
     for column, kind in additions.items():
@@ -194,6 +199,7 @@ def collect(stock: dict, prices: dict[str, dict]) -> dict:
         revenues = statement_series(annual_income, ["Total Revenue", "Operating Revenue"])
         operating_incomes = statement_series(annual_income, ["Operating Income"])
         quarterly_revenues = statement_series(income, ["Total Revenue", "Operating Revenue"])
+        quarterly_operating_incomes = statement_series(income, ["Operating Income"])
         revenue = revenues[0] if revenues else None
         operating_income = operating_incomes[0] if operating_incomes else None
         oldest_revenue_index = min(3, len(revenues) - 1) if revenues else 0
@@ -204,12 +210,38 @@ def collect(stock: dict, prices: dict[str, dict]) -> dict:
             quarterly_revenues[0] / quarterly_revenues[4] - 1
             if len(quarterly_revenues) >= 5 and quarterly_revenues[0] and quarterly_revenues[4] else None
         )
+        latest_quarterly_operating = quarterly_operating_incomes[0] if quarterly_operating_incomes else None
+        prior_year_quarterly_operating = quarterly_operating_incomes[4] if len(quarterly_operating_incomes) >= 5 else None
+        operating_profit_turnaround = bool(
+            latest_quarterly_operating is not None and latest_quarterly_operating > 0
+            and prior_year_quarterly_operating is not None and prior_year_quarterly_operating <= 0
+        )
+        if operating_profit_turnaround:
+            quarterly_operating_income_growth = 1.0
+        elif latest_quarterly_operating is not None and prior_year_quarterly_operating is not None:
+            quarterly_operating_income_growth = (
+                latest_quarterly_operating / prior_year_quarterly_operating - 1
+                if latest_quarterly_operating > 0 and prior_year_quarterly_operating > 0
+                else -1.0 if latest_quarterly_operating <= 0 < prior_year_quarterly_operating else None
+            )
+        else:
+            quarterly_operating_income_growth = None
         operating_margin = operating_income / revenue if operating_income is not None and revenue else None
         previous_margin = (
             operating_incomes[1] / revenues[1]
             if len(operating_incomes) > 1 and len(revenues) > 1 and operating_incomes[1] is not None and revenues[1] else None
         )
         operating_margin_change = operating_margin - previous_margin if operating_margin is not None and previous_margin is not None else None
+        trailing_eps = finite(info.get("trailingEps"))
+        forward_eps = finite(info.get("forwardEps"))
+        forward_eps_growth = (
+            forward_eps / trailing_eps - 1
+            if forward_eps is not None and trailing_eps is not None and trailing_eps > 0 else None
+        )
+        earnings_growth = finite(info.get("earningsGrowth"))
+        sector = str(info.get("sector") or "")[:120]
+        industry = str(info.get("industry") or "")[:160]
+        company_website = str(info.get("website") or "")[:500]
         net_cash = current_assets + securities * 0.7 - liabilities if current_assets is not None and liabilities is not None else None
         ratio = net_cash / cap if net_cash is not None and cap and cap > 0 else None
         passed = bool(
@@ -225,6 +257,10 @@ def collect(stock: dict, prices: dict[str, dict]) -> dict:
         securities = cash = inventory = receivables = operating_cash_flow = net_income = None
         revenue = revenue_cagr_3y = operating_income = operating_income_cagr_3y = None
         quarterly_revenue_growth = operating_margin = operating_margin_change = None
+        quarterly_operating_income_growth = forward_eps_growth = earnings_growth = None
+        operating_profit_turnaround = False
+        trailing_eps = forward_eps = None
+        sector = industry = company_website = ""
         market = {}
         passed = False
         financial_date = None
@@ -237,7 +273,12 @@ def collect(stock: dict, prices: dict[str, dict]) -> dict:
             "revenue": revenue, "revenue_cagr_3y": revenue_cagr_3y,
             "operating_income": operating_income, "operating_income_cagr_3y": operating_income_cagr_3y,
             "quarterly_revenue_growth": quarterly_revenue_growth,
+            "quarterly_operating_income_growth": quarterly_operating_income_growth,
+            "operating_profit_turnaround": operating_profit_turnaround,
             "operating_margin": operating_margin, "operating_margin_change": operating_margin_change,
+            "trailing_eps": trailing_eps, "forward_eps": forward_eps,
+            "forward_eps_growth": forward_eps_growth, "earnings_growth": earnings_growth,
+            "sector": sector, "industry": industry, "company_website": company_website,
             "return_52w": market.get("return_52w"),
             "distance_from_52w_high": market.get("distance_from_52w_high"),
             "volume_ratio_20d": market.get("volume_ratio_20d"),
@@ -251,12 +292,16 @@ def save(conn: sqlite3.Connection, row: dict) -> None:
         current_assets,investment_securities,liabilities,net_cash,net_cash_ratio,
         passed,financial_date,error,fetched_at,cash,inventory,receivables,operating_cash_flow,net_income,
         revenue,revenue_cagr_3y,operating_income,operating_income_cagr_3y,quarterly_revenue_growth,
-        operating_margin,operating_margin_change,return_52w,distance_from_52w_high,volume_ratio_20d)
+        quarterly_operating_income_growth,operating_profit_turnaround,operating_margin,operating_margin_change,
+        trailing_eps,forward_eps,forward_eps_growth,earnings_growth,sector,industry,company_website,
+        return_52w,distance_from_52w_high,volume_ratio_20d)
       VALUES (:code,:name,:market,:price,:market_cap,:per,:pbr,
         :current_assets,:investment_securities,:liabilities,:net_cash,:net_cash_ratio,
         :passed,:financial_date,:error,:fetched_at,:cash,:inventory,:receivables,:operating_cash_flow,:net_income,
         :revenue,:revenue_cagr_3y,:operating_income,:operating_income_cagr_3y,:quarterly_revenue_growth,
-        :operating_margin,:operating_margin_change,:return_52w,:distance_from_52w_high,:volume_ratio_20d)
+        :quarterly_operating_income_growth,:operating_profit_turnaround,:operating_margin,:operating_margin_change,
+        :trailing_eps,:forward_eps,:forward_eps_growth,:earnings_growth,:sector,:industry,:company_website,
+        :return_52w,:distance_from_52w_high,:volume_ratio_20d)
       ON CONFLICT(code) DO UPDATE SET
         name=excluded.name, market=excluded.market, price=excluded.price,
         market_cap=excluded.market_cap, per=excluded.per, pbr=excluded.pbr,
@@ -269,7 +314,12 @@ def save(conn: sqlite3.Connection, row: dict) -> None:
         ,revenue=excluded.revenue, revenue_cagr_3y=excluded.revenue_cagr_3y,
         operating_income=excluded.operating_income, operating_income_cagr_3y=excluded.operating_income_cagr_3y,
         quarterly_revenue_growth=excluded.quarterly_revenue_growth,
+        quarterly_operating_income_growth=excluded.quarterly_operating_income_growth,
+        operating_profit_turnaround=excluded.operating_profit_turnaround,
         operating_margin=excluded.operating_margin, operating_margin_change=excluded.operating_margin_change,
+        trailing_eps=excluded.trailing_eps, forward_eps=excluded.forward_eps,
+        forward_eps_growth=excluded.forward_eps_growth, earnings_growth=excluded.earnings_growth,
+        sector=excluded.sector, industry=excluded.industry, company_website=excluded.company_website,
         return_52w=excluded.return_52w, distance_from_52w_high=excluded.distance_from_52w_high,
         volume_ratio_20d=excluded.volume_ratio_20d
     """, row)
@@ -298,6 +348,7 @@ def export(conn: sqlite3.Connection) -> list[dict]:
             except (TypeError, json.JSONDecodeError):
                 row[field] = []
         row.update(evaluate_tenbagger(row))
+        row.update(evaluate_catalysts(row))
     write_json(RESULTS_PATH, {"generated_at": now(), "stocks": rows})
     return rows
 

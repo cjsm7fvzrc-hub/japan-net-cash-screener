@@ -370,4 +370,14 @@ footer {
 .type-変身型 { background:#cce86c }
 .type-成長初動型 { background:#bfe4d4 }
 .type-清原型 { background:#dfd6b6 }
+.catalyst { margin-top:14px; border:1px solid #c8bfaa; background:#fbf7ed; padding:17px }
+.catalyst h4 { font:500 22px Georgia,"Yu Mincho",serif; margin:4px 0 }
+.signal { padding:6px 9px; border-radius:3px; font-size:12px; background:#e5e3da }
+.signal-strong { background:#e6c86f; color:#4d3a05 }
+.signal-watch { background:#dce6ae; color:#304412 }
+.businessLine { margin:8px 0; color:#69736c; font-size:10px }
+.researchLinks { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:13px }
+.researchLinks span { color:#6b756e; font-size:10px; margin-right:2px }
+.researchLinks a { color:var(--green); border:1px solid #9dae9f; background:#fff; padding:7px 10px; text-decoration:none; font-size:11px }
+.researchLinks a:hover { background:#eef3e9 }
 @media (max-width:800px) { .growthMetrics { grid-template-columns:repeat(2,1fr) } }
