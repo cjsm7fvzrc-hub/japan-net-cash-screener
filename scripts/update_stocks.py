@@ -13,6 +13,7 @@ import pandas as pd
 import requests
 import yfinance as yf
 from catalyst_analysis import evaluate_catalysts
+from decision_analysis import evaluate_decision
 from kiyohara_analysis import evaluate, load_documents_for_candidates
 from tenbagger_analysis import evaluate_tenbagger
 
@@ -349,6 +350,7 @@ def export(conn: sqlite3.Connection) -> list[dict]:
                 row[field] = []
         row.update(evaluate_tenbagger(row))
         row.update(evaluate_catalysts(row))
+        row.update(evaluate_decision(row))
     write_json(RESULTS_PATH, {"generated_at": now(), "stocks": rows})
     return rows
 

@@ -380,4 +380,31 @@ footer {
 .researchLinks span { color:#6b756e; font-size:10px; margin-right:2px }
 .researchLinks a { color:var(--green); border:1px solid #9dae9f; background:#fff; padding:7px 10px; text-decoration:none; font-size:11px }
 .researchLinks a:hover { background:#eef3e9 }
+.decisionPanel { margin-top:14px; border:1px solid #aeb8b0; background:#f4f6f2; padding:17px }
+.decisionPanel h4,.workbench h4 { font:500 22px Georgia,"Yu Mincho",serif; margin:4px 0 }
+.decisionBadges { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:10px 0 14px }
+.decisionBadges strong,.decisionBadges span { padding:6px 9px; background:#fff; border:1px solid #d5dad2; font-size:11px }
+.decisionBadges strong { background:#dce7b6; color:#304719 }
+.decisionBadges .risk-高 { background:#efd0c8; color:#873b2f }
+.decisionBadges .risk-中 { background:#f4df9b; color:#6e5311 }
+.decisionBadges .risk-低 { background:#d7e8dd; color:#276044 }
+.workbench { margin-top:14px; border:1px solid #b4a98d; background:#f8f3e8; padding:17px }
+.workbenchHead { display:flex; align-items:start; justify-content:space-between; gap:14px }
+.workbenchHead small { font-size:9px; letter-spacing:.15em; color:#708077 }
+.watchButton,.calculate { border:1px solid #829483; background:#fff; color:var(--green); padding:9px 12px; cursor:pointer }
+.watchButton.active { background:var(--green); color:#fff }
+.scenarioGrid { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin:14px 0 9px }
+.scenarioGrid label,.journal label { color:#667168; font-size:10px; position:relative }
+.scenarioGrid input,.journal select,.journal textarea { width:100%; box-sizing:border-box; margin-top:5px; border:1px solid #cbc7b8; background:#fff; padding:10px; font:inherit }
+.scenarioGrid i { position:absolute; right:9px; bottom:10px; font-style:normal; color:#879087 }
+.scenarioResult { display:flex; flex-wrap:wrap; gap:10px; align-items:center; min-height:22px; margin:10px 0; font-size:11px; color:#667168 }
+.scenarioResult b { font-size:15px; color:var(--green) }
+.journal { display:grid; grid-template-columns:120px 1fr; gap:10px; margin-top:14px }
+.journal textarea { min-height:75px; resize:vertical }
+.alertList { grid-column:1/-1; display:grid; gap:10px }
+.alertItem { background:#fff; border-left:4px solid #b6922f; padding:16px 18px }
+.alertItem small { color:#78827b; font-size:9px }
+.alertItem h3 { margin:5px 0; font:500 20px Georgia,"Yu Mincho",serif }
+.alertItem ul { margin:8px 0 0; padding-left:20px; font-size:12px }
 @media (max-width:800px) { .growthMetrics { grid-template-columns:repeat(2,1fr) } }
+@media (max-width:800px) { .scenarioGrid { grid-template-columns:repeat(2,1fr) } .journal { grid-template-columns:1fr } }

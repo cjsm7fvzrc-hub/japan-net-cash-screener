@@ -34,7 +34,6 @@ concurrency:
 
 jobs:
   update:
-    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 55
 
@@ -66,7 +65,7 @@ jobs:
 
   deploy:
     needs: update
-    if: always() && (needs.update.result == 'success' || needs.update.result == 'skipped')
+    if: always() && needs.update.result == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
