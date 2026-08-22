@@ -30,6 +30,7 @@ global.fetch = async (url) => ({
     };
     return {generated_at: "2026-08-22T00:00:00Z", stocks: [{
       code: "9999", name: "テスト", market: "プライム", price: 1000,
+      sector: "Technology", industry: "Software - Application",
       market_cap: 10e9, per: 12, pbr: 1, net_cash: 5e9, net_cash_ratio: 0.5,
       passed: false, tenbagger_score: 70, catalyst_score: 65,
       investment_score: 68, investment_decision: "有力候補",
@@ -41,10 +42,13 @@ global.fetch = async (url) => ({
   },
 });
 
+require("../web/i18n.js");
 require("../web/app.js");
 setImmediate(() => {
   assert.match(element("cards").innerHTML, /総合投資判断/);
   assert.match(element("cards").innerHTML, /有力候補/);
+  assert.match(element("cards").innerHTML, /情報技術／業務用ソフトウェア/);
+  assert.doesNotMatch(element("cards").innerHTML, /Technology/);
   assert.equal(element("progressText").textContent, "100.0%");
   console.log("app runtime ok");
 });

@@ -1,10 +1,13 @@
 const assert = require("node:assert");
 
 global.window = global;
+require("../web/i18n.js");
 require("../web/report.js");
 
 const html = window.StockReport.build({
   code: "9999", name: "テスト<&>", market: "プライム", price: 1000,
+  sector: "Technology", industry: "Software - Application",
+  business_summary: "An English business description.",
   market_cap: 20e9, per: 12, pbr: 1.1, net_cash_ratio: 0.5,
   free_cash_flow: 2e9, return_on_equity: 0.15, return_on_assets: 0.08,
   gross_margin: 0.4, debt_to_equity: 20, dividend_yield: 0.02,
@@ -29,5 +32,9 @@ assert.match(html, /PDF保存・印刷/);
 assert.match(html, /HTMLをダウンロード/);
 assert.match(html, /弱気/);
 assert.match(html, /テスト&lt;&amp;&gt;/);
+assert.match(html, /情報技術／業務用ソフトウェア/);
+assert.match(html, /具体的な事業内容、収益構成/);
+assert.doesNotMatch(html, /An English business description/);
+assert.doesNotMatch(html, /EXECUTIVE SUMMARY/);
 assert.doesNotMatch(html, /テスト<&>/);
 console.log("report runtime ok");
