@@ -2,13 +2,13 @@
   "state": "running",
   "message": "次回の自動処理へ継続します",
   "total": 4444,
-  "processed": 3400,
+  "processed": 3600,
   "success": 4444,
   "failed": 0,
   "passed": 76,
-  "progress": 76.5,
-  "started_at": "2026-08-22T06:01:43.853184Z",
-  "updated_at": "2026-08-22T06:06:32.922089Z",
+  "progress": 81.0,
+  "started_at": "2026-08-22T07:22:45.560734Z",
+  "updated_at": "2026-08-22T07:27:58.451829Z",
   "completed_at": "2026-08-21T00:00:53.366585Z",
-  "next_cursor": 3400
+  "next_cursor": 3600
 }
