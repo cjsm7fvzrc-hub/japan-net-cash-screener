@@ -51,7 +51,7 @@ def summarize_technicals(row: dict) -> dict:
     rsi = _finite(row.get("rsi14"))
     volatility = _finite(row.get("volatility_60d"))
     drawdown = _finite(row.get("max_drawdown_1y"))
-    if all(value is None for value in (price, ma20, ma50, ma200, rsi, volatility, drawdown)):
+    if all(value is None for value in (ma20, ma50, ma200, rsi, volatility, drawdown)):
         return {
             "technical_score": None, "technical_trend": "未取得",
             "technical_signals": [], "technical_cautions": ["チャートデータが未取得"],
