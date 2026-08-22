@@ -175,7 +175,7 @@ function render() {
   $("cards").innerHTML = shown
     .map(
       (s) =>
-        `<article class="stock"><div class="stockHead"><div><small>${esc(s.code)} ・ ${esc(s.market)}</small><h3>${esc(s.name)}</h3></div><div class="headScores"><span class="miniScore">総合 <b>${s.investment_score ?? 0}</b></span><span class="miniScore">候補 <b>${s.tenbagger_score ?? 0}</b></span><span class="miniScore">変化 <b>${s.catalyst_score ?? 0}</b></span><span class="badge ${s.passed ? "pass" : ""}">${s.passed ? "清原条件合格" : "条件外"}</span></div></div><div class="metrics">${metric("株価", yen(s.price))}${metric("時価総額", yen(s.market_cap, true), s.market_cap >= 2e9)}${metric("PER", s.per == null ? "—" : num(s.per) + "倍", s.per > 0 && s.per <= 10)}${metric("PBR", s.pbr == null ? "—" : num(s.pbr) + "倍", s.pbr > 0 && s.pbr <= 1)}${metric("ネットキャッシュ", yen(s.net_cash, true))}${metric("ネットキャッシュ比率", num(s.net_cash_ratio), s.net_cash_ratio >= 1, true)}</div>${mode === "kiyohara" ? kiyohara(s) : `${tenbagger(s)}${catalysts(s)}${decisionPanel(s)}${["decision","watchlist"].includes(mode) ? workbench(s) : ""}`}${s.financial_date ? `<p class="asof">財務基準日：${esc(s.financial_date)}</p>` : ""}${s.error ? `<p class="errorText">取得失敗：${esc(s.error)}</p>` : ""}</article>`,
+        `<article class="stock"><div class="stockHead"><div><small>${esc(s.code)} ・ ${esc(s.market)}</small><h3>${esc(s.name)}</h3><button class="reportButton" data-action="report" data-code="${esc(s.code)}">詳細レポートを発行</button></div><div class="headScores"><span class="miniScore">総合 <b>${s.investment_score ?? 0}</b></span><span class="miniScore">候補 <b>${s.tenbagger_score ?? 0}</b></span><span class="miniScore">変化 <b>${s.catalyst_score ?? 0}</b></span><span class="badge ${s.passed ? "pass" : ""}">${s.passed ? "清原条件合格" : "条件外"}</span></div></div><div class="metrics">${metric("株価", yen(s.price))}${metric("時価総額", yen(s.market_cap, true), s.market_cap >= 2e9)}${metric("PER", s.per == null ? "—" : num(s.per) + "倍", s.per > 0 && s.per <= 10)}${metric("PBR", s.pbr == null ? "—" : num(s.pbr) + "倍", s.pbr > 0 && s.pbr <= 1)}${metric("ネットキャッシュ", yen(s.net_cash, true))}${metric("ネットキャッシュ比率", num(s.net_cash_ratio), s.net_cash_ratio >= 1, true)}</div>${mode === "kiyohara" ? kiyohara(s) : `${tenbagger(s)}${catalysts(s)}${decisionPanel(s)}${["decision","watchlist"].includes(mode) ? workbench(s) : ""}`}${s.financial_date ? `<p class="asof">財務基準日：${esc(s.financial_date)}</p>` : ""}${s.error ? `<p class="errorText">取得失敗：${esc(s.error)}</p>` : ""}</article>`,
     )
     .join("");
 }
@@ -226,6 +226,10 @@ $("cards").addEventListener("click", (event) => {
   const stock = stocks.find((s) => String(s.code) === String(code));
   if (!stock) return;
   research[code] ||= {};
+  if (button.dataset.action === "report") {
+    if (window.StockReport) window.StockReport.open(stock, research[code]);
+    return;
+  }
   if (button.dataset.action === "watch") {
     research[code].watched = !research[code].watched;
     storage.write("tenbagger-research-v1", research);

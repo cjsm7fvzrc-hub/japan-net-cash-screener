@@ -30,6 +30,12 @@ class UpdateStorageTests(unittest.TestCase):
             "earnings_growth": 0.25, "sector": "Technology", "industry": "Software",
             "company_website": "https://example.com", "return_52w": 0.1,
             "distance_from_52w_high": -0.05, "volume_ratio_20d": 1.6,
+            "free_cash_flow": 4, "return_on_equity": 0.15, "return_on_assets": 0.08,
+            "gross_margin": 0.4, "debt_to_equity": 25, "dividend_yield": 0.02,
+            "business_summary": "テスト事業", "ma20": 980, "ma50": 950, "ma200": 900,
+            "rsi14": 60, "volatility_60d": 0.25, "max_drawdown_1y": -0.2,
+            "technical_score": 80, "technical_trend": "上昇",
+            "price_history_52w": "[900, 950, 1000]",
         }
         save(conn, row)
         stored = conn.execute(

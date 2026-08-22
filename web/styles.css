@@ -406,5 +406,7 @@ footer {
 .alertItem small { color:#78827b; font-size:9px }
 .alertItem h3 { margin:5px 0; font:500 20px Georgia,"Yu Mincho",serif }
 .alertItem ul { margin:8px 0 0; padding-left:20px; font-size:12px }
+.reportButton { margin-top:10px; border:1px solid var(--green); background:var(--green); color:#fff; padding:8px 11px; cursor:pointer; font-size:11px }
+.reportButton:hover { background:#244b38 }
 @media (max-width:800px) { .growthMetrics { grid-template-columns:repeat(2,1fr) } }
 @media (max-width:800px) { .scenarioGrid { grid-template-columns:repeat(2,1fr) } .journal { grid-template-columns:1fr } }

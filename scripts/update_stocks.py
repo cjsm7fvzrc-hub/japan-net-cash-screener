@@ -15,6 +15,7 @@ import yfinance as yf
 from catalyst_analysis import evaluate_catalysts
 from decision_analysis import evaluate_decision
 from kiyohara_analysis import evaluate, load_documents_for_candidates
+from technical_analysis import evaluate_prices, summarize_technicals
 from tenbagger_analysis import evaluate_tenbagger
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -98,6 +99,12 @@ def init_db(conn: sqlite3.Connection) -> None:
         "operating_profit_turnaround": "INTEGER",
         "earnings_growth": "REAL", "trailing_eps": "REAL", "forward_eps": "REAL",
         "sector": "TEXT", "industry": "TEXT", "company_website": "TEXT",
+        "free_cash_flow": "REAL", "return_on_equity": "REAL", "return_on_assets": "REAL",
+        "gross_margin": "REAL", "debt_to_equity": "REAL", "dividend_yield": "REAL",
+        "business_summary": "TEXT", "ma20": "REAL", "ma50": "REAL", "ma200": "REAL",
+        "rsi14": "REAL", "volatility_60d": "REAL", "max_drawdown_1y": "REAL",
+        "technical_score": "INTEGER", "technical_trend": "TEXT",
+        "price_history_52w": "TEXT",
     }
     existing = {row[1] for row in conn.execute("PRAGMA table_info(stocks)")}
     for column, kind in additions.items():
@@ -156,11 +163,15 @@ def price_map(stocks: list[dict]) -> dict[str, dict]:
             high = finite(series.max()) if not series.empty else None
             recent_volume = finite(volume.tail(5).mean()) if len(volume) >= 5 else None
             normal_volume = finite(volume.tail(20).mean()) if len(volume) >= 20 else None
+            technical = evaluate_prices(series.tolist())
+            weekly = series.resample("W").last().dropna().tail(52)
             result[ticker] = {
                 "price": latest,
                 "return_52w": latest / first - 1 if latest and first else None,
                 "distance_from_52w_high": latest / high - 1 if latest and high else None,
                 "volume_ratio_20d": recent_volume / normal_volume if recent_volume and normal_volume else None,
+                **technical,
+                "price_history_52w": json.dumps([round(float(value), 2) for value in weekly]),
             }
         except Exception:
             result[ticker] = {}
@@ -243,6 +254,13 @@ def collect(stock: dict, prices: dict[str, dict]) -> dict:
         sector = str(info.get("sector") or "")[:120]
         industry = str(info.get("industry") or "")[:160]
         company_website = str(info.get("website") or "")[:500]
+        free_cash_flow = finite(info.get("freeCashflow"))
+        return_on_equity = finite(info.get("returnOnEquity"))
+        return_on_assets = finite(info.get("returnOnAssets"))
+        gross_margin = finite(info.get("grossMargins"))
+        debt_to_equity = finite(info.get("debtToEquity"))
+        dividend_yield = finite(info.get("dividendYield"))
+        business_summary = str(info.get("longBusinessSummary") or "")[:900]
         net_cash = current_assets + securities * 0.7 - liabilities if current_assets is not None and liabilities is not None else None
         ratio = net_cash / cap if net_cash is not None and cap and cap > 0 else None
         passed = bool(
@@ -262,6 +280,9 @@ def collect(stock: dict, prices: dict[str, dict]) -> dict:
         operating_profit_turnaround = False
         trailing_eps = forward_eps = None
         sector = industry = company_website = ""
+        business_summary = ""
+        free_cash_flow = return_on_equity = return_on_assets = gross_margin = None
+        debt_to_equity = dividend_yield = None
         market = {}
         passed = False
         financial_date = None
@@ -280,9 +301,18 @@ def collect(stock: dict, prices: dict[str, dict]) -> dict:
             "trailing_eps": trailing_eps, "forward_eps": forward_eps,
             "forward_eps_growth": forward_eps_growth, "earnings_growth": earnings_growth,
             "sector": sector, "industry": industry, "company_website": company_website,
+            "free_cash_flow": free_cash_flow, "return_on_equity": return_on_equity,
+            "return_on_assets": return_on_assets, "gross_margin": gross_margin,
+            "debt_to_equity": debt_to_equity, "dividend_yield": dividend_yield,
+            "business_summary": business_summary,
             "return_52w": market.get("return_52w"),
             "distance_from_52w_high": market.get("distance_from_52w_high"),
             "volume_ratio_20d": market.get("volume_ratio_20d"),
+            "ma20": market.get("ma20"), "ma50": market.get("ma50"), "ma200": market.get("ma200"),
+            "rsi14": market.get("rsi14"), "volatility_60d": market.get("volatility_60d"),
+            "max_drawdown_1y": market.get("max_drawdown_1y"),
+            "technical_score": market.get("technical_score"), "technical_trend": market.get("technical_trend"),
+            "price_history_52w": market.get("price_history_52w"),
             "passed": passed, "financial_date": financial_date, "error": error,
             "fetched_at": now()}
 
@@ -295,14 +325,18 @@ def save(conn: sqlite3.Connection, row: dict) -> None:
         revenue,revenue_cagr_3y,operating_income,operating_income_cagr_3y,quarterly_revenue_growth,
         quarterly_operating_income_growth,operating_profit_turnaround,operating_margin,operating_margin_change,
         trailing_eps,forward_eps,forward_eps_growth,earnings_growth,sector,industry,company_website,
-        return_52w,distance_from_52w_high,volume_ratio_20d)
+        free_cash_flow,return_on_equity,return_on_assets,gross_margin,debt_to_equity,dividend_yield,business_summary,
+        return_52w,distance_from_52w_high,volume_ratio_20d,ma20,ma50,ma200,rsi14,volatility_60d,max_drawdown_1y,
+        technical_score,technical_trend,price_history_52w)
       VALUES (:code,:name,:market,:price,:market_cap,:per,:pbr,
         :current_assets,:investment_securities,:liabilities,:net_cash,:net_cash_ratio,
         :passed,:financial_date,:error,:fetched_at,:cash,:inventory,:receivables,:operating_cash_flow,:net_income,
         :revenue,:revenue_cagr_3y,:operating_income,:operating_income_cagr_3y,:quarterly_revenue_growth,
         :quarterly_operating_income_growth,:operating_profit_turnaround,:operating_margin,:operating_margin_change,
         :trailing_eps,:forward_eps,:forward_eps_growth,:earnings_growth,:sector,:industry,:company_website,
-        :return_52w,:distance_from_52w_high,:volume_ratio_20d)
+        :free_cash_flow,:return_on_equity,:return_on_assets,:gross_margin,:debt_to_equity,:dividend_yield,:business_summary,
+        :return_52w,:distance_from_52w_high,:volume_ratio_20d,:ma20,:ma50,:ma200,:rsi14,:volatility_60d,:max_drawdown_1y,
+        :technical_score,:technical_trend,:price_history_52w)
       ON CONFLICT(code) DO UPDATE SET
         name=excluded.name, market=excluded.market, price=excluded.price,
         market_cap=excluded.market_cap, per=excluded.per, pbr=excluded.pbr,
@@ -321,8 +355,16 @@ def save(conn: sqlite3.Connection, row: dict) -> None:
         trailing_eps=excluded.trailing_eps, forward_eps=excluded.forward_eps,
         forward_eps_growth=excluded.forward_eps_growth, earnings_growth=excluded.earnings_growth,
         sector=excluded.sector, industry=excluded.industry, company_website=excluded.company_website,
+        free_cash_flow=excluded.free_cash_flow, return_on_equity=excluded.return_on_equity,
+        return_on_assets=excluded.return_on_assets, gross_margin=excluded.gross_margin,
+        debt_to_equity=excluded.debt_to_equity, dividend_yield=excluded.dividend_yield,
+        business_summary=excluded.business_summary,
         return_52w=excluded.return_52w, distance_from_52w_high=excluded.distance_from_52w_high,
         volume_ratio_20d=excluded.volume_ratio_20d
+        ,ma20=excluded.ma20, ma50=excluded.ma50, ma200=excluded.ma200, rsi14=excluded.rsi14,
+        volatility_60d=excluded.volatility_60d, max_drawdown_1y=excluded.max_drawdown_1y,
+        technical_score=excluded.technical_score, technical_trend=excluded.technical_trend
+        ,price_history_52w=excluded.price_history_52w
     """, row)
 
 
@@ -348,9 +390,14 @@ def export(conn: sqlite3.Connection) -> list[dict]:
                 row[field] = json.loads(row[field] or "[]")
             except (TypeError, json.JSONDecodeError):
                 row[field] = []
+        try:
+            row["price_history_52w"] = json.loads(row.get("price_history_52w") or "[]")
+        except (TypeError, json.JSONDecodeError):
+            row["price_history_52w"] = []
         row.update(evaluate_tenbagger(row))
         row.update(evaluate_catalysts(row))
         row.update(evaluate_decision(row))
+        row.update(summarize_technicals(row))
     write_json(RESULTS_PATH, {"generated_at": now(), "stocks": rows})
     return rows
 
