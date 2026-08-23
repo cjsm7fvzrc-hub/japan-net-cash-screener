@@ -17,6 +17,7 @@ from decision_analysis import evaluate_decision
 from kiyohara_analysis import evaluate, load_documents_for_candidates
 from technical_analysis import evaluate_prices, summarize_technicals
 from tenbagger_analysis import evaluate_tenbagger
+from universe_filter import eligible_market
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -26,6 +27,7 @@ RESULTS_PATH = DATA / "results.json"
 JPX_URL = "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls"
 BATCH_SIZE = max(1, int(os.getenv("BATCH_SIZE", "200")))
 RESET_CURSOR = os.getenv("RESET_CURSOR", "false").lower() == "true"
+UNIVERSE_VERSION = 2
 
 
 def now() -> str:
@@ -60,13 +62,14 @@ def fetch_jpx() -> list[dict]:
     rows = []
     for _, row in frame.iterrows():
         code = str(row[code_col]).strip()
-        if not code or code == "nan":
+        market = str(row[market_col]).strip()
+        if not code or code == "nan" or not eligible_market(market):
             continue
         rows.append({
             "code": code,
             "ticker": f"{code}.T",
             "name": str(row[name_col]).strip(),
-            "market": str(row[market_col]).strip(),
+            "market": market,
         })
     return rows
 
@@ -407,7 +410,8 @@ def main() -> None:
     universe = fetch_jpx()
     total = len(universe)
     previous = load_status()
-    cursor = 0 if RESET_CURSOR else int(previous.get("next_cursor") or 0)
+    universe_changed = previous.get("universe_version") != UNIVERSE_VERSION
+    cursor = 0 if RESET_CURSOR or universe_changed else int(previous.get("next_cursor") or 0)
     if cursor >= total:
         cursor = 0
     end = min(cursor + BATCH_SIZE, total)
@@ -416,7 +420,7 @@ def main() -> None:
               "processed": cursor, "success": 0, "failed": 0, "passed": 0,
               "progress": round(cursor / total * 100, 1) if total else 0,
               "started_at": now(), "updated_at": now(), "completed_at": previous.get("completed_at"),
-              "next_cursor": cursor}
+              "next_cursor": cursor, "universe_version": UNIVERSE_VERSION}
     write_json(STATUS_PATH, status)
     conn = sqlite3.connect(DB_PATH)
     init_db(conn)

@@ -1,6 +1,6 @@
 # 日本株テンバガー候補・リサーチ
 
-JPX公式の全上場銘柄一覧を取得し、GitHub Actions上で `yfinance` を分割実行します。結果はSQLite (`data/stocks.db`) に蓄積し、Web画面は書き出されたJSONだけを読みます。ブラウザを閉じても処理は継続します。
+JPX公式の上場銘柄一覧から、一般投資家向け市場を対象として取得し、GitHub Actions上で `yfinance` を分割実行します。プロ投資家向けのTOKYO PRO Marketは対象外です。結果はSQLite (`data/stocks.db`) に蓄積し、Web画面は書き出されたJSONだけを読みます。ブラウザを閉じても処理は継続します。
 
 ## テンバガー候補機能
 
@@ -31,6 +31,8 @@ JPX公式の全上場銘柄一覧を取得し、GitHub Actions上で `yfinance` 
 - PBR 1倍以下
 - 時価総額20億円以上（上限なし）
 - 流動資産が負債を上回る
+
+対象市場からTOKYO PRO Marketを除外します。
 
 ネットキャッシュ = 流動資産 + 投資有価証券 × 70% − 負債
 
