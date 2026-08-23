@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-23T16:01:03.385980Z",
+  "generated_at": "2026-08-23T17:06:59.318871Z",
   "status": "観測準備中",
   "policy_version": 1,
   "snapshot_count": 0,
@@ -8,10 +8,10 @@
     "failed_count": 0,
     "coverage_percent": {
       "price": 100.0,
-      "market_cap": 88.6,
+      "market_cap": 88.5,
       "per": 84.3,
       "pbr": 88.4,
-      "net_cash_ratio": 85.9,
+      "net_cash_ratio": 85.8,
       "revenue_cagr_3y": 84.5,
       "technical_score": 85.1
     },
