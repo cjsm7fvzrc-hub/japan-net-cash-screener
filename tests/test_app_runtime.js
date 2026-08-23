@@ -28,6 +28,13 @@ global.fetch = async (url) => ({
       progress: 100, processed: 1, total: 1, failed: 0, state: "completed",
       updated_at: "2026-08-22T00:00:00Z", message: "完了",
     };
+    if (url.includes("model_review.json")) return {
+      status:"検証運用中", snapshot_count:3,
+      current_quality:{stock_count:1,failed_count:0,coverage_percent:{price:100},anomalies:[]},
+      horizons:[{days:30,candidates:{count:5,average_return:.12,gain_30_rate:.2,loss_20_rate:0},control:{average_return:.03},excess_return:.09}],
+      proposals:[{status:"観測中",title:"現行基準を維持",evidence:"標本不足",change:"変更なし",risk:"短期機会"}],
+    };
+    if (url.includes("ai_review.json")) return {status:"未設定",summary:"通常の検証には影響しません。",agreements:[],objections:[]};
     return {generated_at: "2026-08-22T00:00:00Z", stocks: [{
       code: "9999", name: "テスト", market: "プライム", price: 1000,
       sector: "Technology", industry: "Software - Application",
@@ -50,5 +57,9 @@ setImmediate(() => {
   assert.match(element("cards").innerHTML, /情報技術／業務用ソフトウェア/);
   assert.doesNotMatch(element("cards").innerHTML, /Technology/);
   assert.equal(element("progressText").textContent, "100.0%");
+  global.ScreenerApp.renderGovernance();
+  assert.match(element("cards").innerHTML, /判定精度を継続検証/);
+  assert.match(element("cards").innerHTML, /自動変更なし/);
+  assert.match(element("cards").innerHTML, /現行基準を維持/);
   console.log("app runtime ok");
 });

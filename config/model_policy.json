@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "updated_at": "2026-08-23",
+  "active_criteria": {
+    "net_cash_ratio_min": 1.0,
+    "per_max": 10.0,
+    "pbr_max": 1.0,
+    "market_cap_min_yen": 2000000000,
+    "require_current_assets_above_liabilities": true,
+    "tenbagger_candidate_score_min": 45
+  },
+  "review_rules": {
+    "snapshot_frequency": "weekly",
+    "horizons_days": [30, 90, 180, 365],
+    "candidate_limit": 120,
+    "control_limit": 120,
+    "history_limit_weeks": 110,
+    "minimum_observations_for_proposal": 30,
+    "automatic_rule_changes": false,
+    "human_approval_required": true
+  }
+}

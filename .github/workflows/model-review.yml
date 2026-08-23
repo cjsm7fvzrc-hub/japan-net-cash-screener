@@ -1,96 +1,68 @@
-name: Update and deploy stock screener
+name: Monthly model governance review
 
 on:
   workflow_dispatch:
-    inputs:
-      reset:
-        description: 最初の銘柄から再取得する
-        required: false
-        type: boolean
-        default: false
-      batch_size:
-        description: 1回に取得する銘柄数
-        required: false
-        default: "200"
   schedule:
-    - cron: "17 * * * *"
-  push:
-    branches:
-      - main
-    paths:
-      - "web/**"
-      - "scripts/**"
-      - "requirements.txt"
-      - ".github/workflows/main.yml"
+    - cron: "30 21 1 * *"
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: stock-screener
   cancel-in-progress: false
 
 jobs:
-  update:
+  review:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
-
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Collect and save stock data
-        env:
-          BATCH_SIZE: ${{ inputs.batch_size || '200' }}
-          RESET_CURSOR: ${{ inputs.reset || 'false' }}
-        run: python scripts/update_stocks.py
-
-      - name: Update model evaluation history
+      - name: Install review dependency
+        run: pip install requests
+      - name: Update performance review
         run: python scripts/model_governance.py
-
-      - name: Commit stored results
+      - name: Optional independent Claude audit
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+        run: python scripts/claude_review.py
+      - name: Store review results
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/results.json data/status.json data/stocks.db data/evaluation_history.json data/model_review.json
+          git add data/evaluation_history.json data/model_review.json data/ai_review.json
           git diff --cached --quiet && exit 0
-          git commit -m "data: update stock screening results"
+          git commit -m "analysis: update model governance review"
           git push
 
   deploy:
-    needs: update
-    if: always() && needs.update.result == 'success'
+    needs: review
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
-
       - name: Prepare website
         run: |
           mkdir -p public/data
           cp -R web/. public/
           cp data/results.json data/status.json data/model_review.json data/ai_review.json public/data/
-
       - uses: actions/configure-pages@v5
-
       - uses: actions/upload-pages-artifact@v3
         with:
           path: public
-
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4

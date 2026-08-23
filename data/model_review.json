@@ -1,0 +1,19 @@
+{
+  "generated_at": null,
+  "status": "観測準備中",
+  "policy_version": 1,
+  "snapshot_count": 0,
+  "current_quality": {
+    "stock_count": 0,
+    "failed_count": 0,
+    "coverage_percent": {},
+    "anomalies": []
+  },
+  "horizons": [],
+  "score_bands": [],
+  "proposals": [],
+  "safety": {
+    "automatic_changes": false,
+    "human_approval_required": true
+  }
+}

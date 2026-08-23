@@ -1,6 +1,8 @@
 const $ = (id) => document.getElementById(id);
 let stocks = [],
-  mode = "tenbagger";
+  mode = "tenbagger",
+  modelReview = {},
+  aiReview = {};
 const storage = {
   read(key, fallback) {
     try {
@@ -137,6 +139,37 @@ function renderAlerts() {
     ? `<div class="alertList">${alerts.map((a) => `<article class="alertItem"><small>${date(a.at)}</small><h3>${esc(a.code)}　${esc(a.name)}</h3><ul>${a.changes.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></article>`).join("")}</div>`
     : '<div class="empty">ウォッチ銘柄を登録すると、データ更新時のスコア・リスク・株価の大きな変化をここに記録します。</div>';
 }
+const reviewPct = (value) => value == null ? "—" : `${(Number(value) * 100).toFixed(1)}%`;
+function renderGovernance() {
+  const quality = modelReview.current_quality || {};
+  const horizons = modelReview.horizons || [];
+  const proposals = modelReview.proposals || [];
+  const coverageNames = {
+    price: "株価", market_cap: "時価総額", per: "PER", pbr: "PBR",
+    net_cash_ratio: "ネットキャッシュ比率", revenue_cagr_3y: "売上成長率", technical_score: "チャート指標",
+  };
+  const coverage = Object.entries(quality.coverage_percent || {})
+    .map(([key, value]) => `<div><span>${esc(coverageNames[key] || key)}</span><b>${esc(value)}%</b></div>`).join("");
+  const horizonRows = horizons.map((item) => `<tr><th>${esc(item.days)}日</th><td>${item.candidates?.count || 0}件</td><td>${reviewPct(item.candidates?.average_return)}</td><td>${reviewPct(item.control?.average_return)}</td><td class="${(item.excess_return ?? 0) > 0 ? "positiveText" : ""}">${reviewPct(item.excess_return)}</td><td>${reviewPct(item.candidates?.gain_30_rate)}</td><td>${reviewPct(item.candidates?.loss_20_rate)}</td></tr>`).join("");
+  const proposalCards = proposals.length
+    ? proposals.map((item) => `<article class="proposal"><span class="proposalStatus">${esc(item.status)}</span><h4>${esc(item.title)}</h4><p><b>根拠</b>${esc(item.evidence)}</p><p><b>試験案</b>${esc(item.change)}</p><p><b>注意点</b>${esc(item.risk)}</p></article>`).join("")
+    : '<div class="empty compact">現在、改善提案はありません。</div>';
+  const anomalies = (quality.anomalies || []).length
+    ? `<ul>${quality.anomalies.slice(0, 10).map((item) => `<li>${esc(item.code)} ${esc(item.name)}：${esc(item.field)} ${esc(item.value)}（${esc(item.reason)}）</li>`).join("")}</ul>`
+    : "<p>現在の自動検査では重大な異常値を検出していません。</p>";
+  const aiLists = [
+    ["一致した見解", aiReview.agreements], ["反対・警告", aiReview.objections],
+  ].map(([title, items]) => `<div><b>${title}</b>${items?.length ? `<ul>${items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : "<p>記録なし</p>"}</div>`).join("");
+  $("summary").textContent = `判定履歴 ${modelReview.snapshot_count || 0}回／状態 ${modelReview.status || "準備中"}`;
+  $("cards").innerHTML = `<section class="governancePanel">
+    <div class="governanceHero"><div><small>モデル運用管理</small><h3>判定精度を継続検証</h3><p>週次の判定結果を固定保存し、30・90・180・365日後の成績を低スコア対照群と比較します。改善案は承認されるまで現行基準へ反映されません。</p></div><div class="safetyBadge"><b>自動変更なし</b><span>利用者の承認が必須</span></div></div>
+    <div class="reviewStats"><div><span>保存した判定時点</span><b>${modelReview.snapshot_count || 0}回</b></div><div><span>保存銘柄</span><b>${quality.stock_count || 0}社</b></div><div><span>取得失敗</span><b>${quality.failed_count || 0}件</b></div><div><span>異常値候補</span><b>${(quality.anomalies || []).length}件</b></div></div>
+    <section class="reviewBlock"><h3>期間別の検証成績</h3><p>候補群と、同時点の低スコア対照群を同じ期間で比較します。標本が少ない間は基準変更を提案しません。</p><div class="tableScroll"><table><thead><tr><th>期間</th><th>標本</th><th>候補平均</th><th>対照平均</th><th>超過成績</th><th>30%以上上昇</th><th>20%以上下落</th></tr></thead><tbody>${horizonRows || '<tr><td colspan="7">期間到達後に成績が表示されます。</td></tr>'}</tbody></table></div></section>
+    <section class="reviewBlock"><h3>データ品質</h3><div class="coverageGrid">${coverage}</div><div class="anomalies"><h4>異常値の自動検査</h4>${anomalies}</div></section>
+    <section class="reviewBlock"><h3>改善提案</h3><p>以下は試験案です。自動的に判定条件や配点を変更することはありません。</p><div class="proposalGrid">${proposalCards}</div></section>
+    <section class="reviewBlock aiAudit"><div class="auditHead"><div><small>任意の独立監査</small><h3>Claudeによる反証レビュー</h3></div><span>${esc(aiReview.status || "未設定")}</span></div><p>${esc(aiReview.summary || "Claude連携は未設定です。通常の精度検証には影響しません。")}</p><div class="auditGrid">${aiLists}</div></section>
+  </section>`;
+}
 function render() {
   const q = $("search").value.trim(),
     type = $("candidateType").value,
@@ -147,6 +180,10 @@ function render() {
   );
   if (mode === "alerts") {
     renderAlerts();
+    return;
+  }
+  if (mode === "governance") {
+    renderGovernance();
     return;
   }
   if (mode === "kiyohara") shown = shown.filter((s) => s.passed);
@@ -184,9 +221,20 @@ function render() {
 }
 async function load() {
   try {
-    const [status, result] = await Promise.all([
+    const optionalJson = async (path, fallback) => {
+      try {
+        const response = await fetch(`${path}?${Date.now()}`);
+        if (response.ok === false) return fallback;
+        return await response.json();
+      } catch {
+        return fallback;
+      }
+    };
+    const [status, result, review, independentReview] = await Promise.all([
       fetch("data/status.json?" + Date.now()).then((r) => r.json()),
       fetch("data/results.json?" + Date.now()).then((r) => r.json()),
+      optionalJson("data/model_review.json", {}),
+      optionalJson("data/ai_review.json", {}),
     ]);
     const progress = Number(status.progress || 0);
     $("progressText").textContent = progress.toFixed(1) + "%";
@@ -205,6 +253,8 @@ async function load() {
           : "待機中";
     $("stateBadge").className = status.state === "running" ? "running" : "";
     stocks = result.stocks || [];
+    modelReview = review || {};
+    aiReview = independentReview || {};
     updateAlerts(stocks, result.generated_at);
     $("passCount").textContent =
       stocks.filter((s) => s.passed).length.toLocaleString() + "社";
@@ -276,9 +326,11 @@ document.querySelectorAll(".modeTabs button").forEach((button) =>
       .forEach((x) => x.classList.remove("active"));
     button.classList.add("active");
     mode = button.dataset.mode;
+    $("stockTools").hidden = mode === "governance";
     $("sort").value = mode === "kiyohara" ? "kiyohara" : mode === "catalyst" ? "catalyst" : mode === "risk" ? "risk" : ["decision","watchlist"].includes(mode) ? "decision" : "tenbagger";
     render();
   }),
 );
+globalThis.ScreenerApp = {renderGovernance};
 load();
 setInterval(load, 60000);

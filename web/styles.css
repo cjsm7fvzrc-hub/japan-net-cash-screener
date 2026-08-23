@@ -408,5 +408,46 @@ footer {
 .alertItem ul { margin:8px 0 0; padding-left:20px; font-size:12px }
 .reportButton { margin-top:10px; border:1px solid var(--green); background:var(--green); color:#fff; padding:8px 11px; cursor:pointer; font-size:11px }
 .reportButton:hover { background:#244b38 }
+[hidden] { display:none !important }
+.governancePanel { grid-column:1/-1; display:grid; gap:16px }
+.governanceHero { display:flex; justify-content:space-between; gap:25px; align-items:center; padding:26px; color:#fff; background:var(--deep); border-left:6px solid var(--lime) }
+.governanceHero small,.auditHead small { color:#9db7ac; letter-spacing:.15em }
+.governanceHero h3 { margin:7px 0; font:500 29px Georgia,"Yu Mincho",serif }
+.governanceHero p { color:#c7d4ce; max-width:760px; margin:0; font-size:12px; line-height:1.8 }
+.safetyBadge { min-width:170px; padding:14px; background:#153e32; border:1px solid #547368; text-align:center }
+.safetyBadge b,.safetyBadge span { display:block }
+.safetyBadge b { color:var(--lime); margin-bottom:5px }
+.safetyBadge span { font-size:10px; color:#c8d2cd }
+.reviewStats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line) }
+.reviewStats div { padding:18px; background:#fff }
+.reviewStats span,.coverageGrid span { display:block; color:#6c7871; font-size:10px }
+.reviewStats b { display:block; margin-top:6px; font:24px Georgia; color:var(--green) }
+.reviewBlock { background:#fff; border:1px solid var(--line); padding:22px }
+.reviewBlock > h3,.auditHead h3 { margin:0 0 7px; font:500 23px Georgia,"Yu Mincho",serif }
+.reviewBlock > p,.aiAudit > p { color:#68756e; font-size:11px; line-height:1.7 }
+.tableScroll { overflow-x:auto }
+.reviewBlock table { width:100%; border-collapse:collapse; min-width:720px; font-size:11px }
+.reviewBlock th,.reviewBlock td { border-bottom:1px solid #e3e5de; padding:11px 9px; text-align:right }
+.reviewBlock th:first-child,.reviewBlock td:first-child { text-align:left }
+.positiveText { color:var(--green); font-weight:bold }
+.coverageGrid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); margin:14px 0 }
+.coverageGrid div { background:#f8f8f4; padding:13px }
+.coverageGrid b { display:block; margin-top:5px }
+.anomalies { background:#f8f6ef; padding:15px; font-size:11px }
+.anomalies h4 { margin:0 0 8px }
+.anomalies ul { margin:0; padding-left:20px }
+.proposalGrid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px }
+.proposal { border:1px solid #d7d0bd; background:#fbf8ef; padding:17px }
+.proposalStatus { display:inline-block; padding:4px 7px; background:#efe1a4; color:#604d12; font-size:9px }
+.proposal h4 { margin:9px 0; font-size:15px }
+.proposal p { margin:7px 0; font-size:11px; line-height:1.6 }
+.proposal p b { display:block; color:#66736b; font-size:9px }
+.empty.compact { padding:24px }
+.auditHead { display:flex; justify-content:space-between; gap:12px; align-items:start }
+.auditHead > span { padding:6px 9px; border:1px solid #bcc8bf; color:var(--green); font-size:10px }
+.auditGrid { display:grid; grid-template-columns:1fr 1fr; gap:12px }
+.auditGrid > div { background:#f5f6f1; padding:14px; font-size:11px }
+.auditGrid ul { padding-left:18px; margin-bottom:0 }
 @media (max-width:800px) { .growthMetrics { grid-template-columns:repeat(2,1fr) } }
 @media (max-width:800px) { .scenarioGrid { grid-template-columns:repeat(2,1fr) } .journal { grid-template-columns:1fr } }
+@media (max-width:800px) { .governanceHero { align-items:stretch; flex-direction:column } .reviewStats,.coverageGrid { grid-template-columns:repeat(2,1fr) } .proposalGrid,.auditGrid { grid-template-columns:1fr } }

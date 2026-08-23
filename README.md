@@ -50,6 +50,17 @@ JPX公式の全上場銘柄一覧を取得し、GitHub Actions上で `yfinance` 
 - `data/stocks.db`: 銘柄ごとの最新値を保存するSQLiteデータベース
 - `data/results.json`: Web表示用データ
 - `data/status.json`: 進捗、最終更新、失敗件数など
+- `data/evaluation_history.json`: 週次の候補群・対照群と期間到達後の固定成績
+- `data/model_review.json`: データ品質、期間別成績、承認待ちの改善案
+- `data/ai_review.json`: 任意のClaude独立監査結果
+
+## 精度検証・改善
+
+全銘柄の更新完了時に週次スナップショットを保存し、30・90・180・365日後の成績を固定記録します。候補群だけを見るのではなく、同時点の低スコア対照群と比較することで、相場全体の上昇をモデルの実力と誤認しにくくしています。
+
+改善案は画面の「精度検証・改善」に表示されますが、判定条件や配点を自動変更しません。最低標本数を満たし、利用者が内容と過剰適合リスクを確認して承認した場合だけ、別の変更として実装します。
+
+Claudeによる月次の独立監査は任意です。有効にする場合はRepository secret `ANTHROPIC_API_KEY` とRepository variable `CLAUDE_MODEL` を設定します。APIキーはWeb画面へ配信されません。未設定または監査失敗時も、通常の銘柄更新と数値検証は継続します。
 
 ## 清原式・推定評価
 
