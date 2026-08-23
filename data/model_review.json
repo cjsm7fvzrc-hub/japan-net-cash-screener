@@ -1,17 +1,132 @@
 {
-  "generated_at": null,
+  "generated_at": "2026-08-23T10:20:55.174633Z",
   "status": "観測準備中",
   "policy_version": 1,
   "snapshot_count": 0,
   "current_quality": {
-    "stock_count": 0,
+    "stock_count": 4444,
     "failed_count": 0,
-    "coverage_percent": {},
+    "coverage_percent": {
+      "price": 100.0,
+      "market_cap": 88.7,
+      "per": 84.3,
+      "pbr": 88.4,
+      "net_cash_ratio": 85.1,
+      "revenue_cagr_3y": 83.8,
+      "technical_score": 58.2
+    },
     "anomalies": []
   },
-  "horizons": [],
-  "score_bands": [],
-  "proposals": [],
+  "horizons": [
+    {
+      "days": 30,
+      "candidates": {
+        "count": 0,
+        "average_return": null,
+        "median_return": null,
+        "gain_30_rate": null,
+        "loss_20_rate": null
+      },
+      "control": {
+        "count": 0,
+        "average_return": null,
+        "median_return": null,
+        "gain_30_rate": null,
+        "loss_20_rate": null
+      },
+      "excess_return": null
+    },
+    {
+      "days": 90,
+      "candidates": {
+        "count": 0,
+        "average_return": null,
+        "median_return": null,
+        "gain_30_rate": null,
+        "loss_20_rate": null
+      },
+      "control": {
+        "count": 0,
+        "average_return": null,
+        "median_return": null,
+        "gain_30_rate": null,
+        "loss_20_rate": null
+      },
+      "excess_return": null
+    },
+    {
+      "days": 180,
+      "candidates": {
+        "count": 0,
+        "average_return": null,
+        "median_return": null,
+        "gain_30_rate": null,
+        "loss_20_rate": null
+      },
+      "control": {
+        "count": 0,
+        "average_return": null,
+        "median_return": null,
+        "gain_30_rate": null,
+        "loss_20_rate": null
+      },
+      "excess_return": null
+    },
+    {
+      "days": 365,
+      "candidates": {
+        "count": 0,
+        "average_return": null,
+        "median_return": null,
+        "gain_30_rate": null,
+        "loss_20_rate": null
+      },
+      "control": {
+        "count": 0,
+        "average_return": null,
+        "median_return": null,
+        "gain_30_rate": null,
+        "loss_20_rate": null
+      },
+      "excess_return": null
+    }
+  ],
+  "score_bands": [
+    {
+      "label": "70点以上",
+      "count": 0,
+      "average_return": null,
+      "median_return": null,
+      "gain_30_rate": null,
+      "loss_20_rate": null
+    },
+    {
+      "label": "55～69点",
+      "count": 0,
+      "average_return": null,
+      "median_return": null,
+      "gain_30_rate": null,
+      "loss_20_rate": null
+    },
+    {
+      "label": "45～54点",
+      "count": 0,
+      "average_return": null,
+      "median_return": null,
+      "gain_30_rate": null,
+      "loss_20_rate": null
+    }
+  ],
+  "proposals": [
+    {
+      "id": "keep-current-until-sample",
+      "status": "観測中",
+      "title": "現行基準を維持",
+      "evidence": "90日評価は0件です。改善判断には最低30件を必要とします。",
+      "change": "判定基準は変更せず、標本を蓄積します。",
+      "risk": "短期的な改善機会を見送る可能性があります。"
+    }
+  ],
   "safety": {
     "automatic_changes": false,
     "human_approval_required": true
