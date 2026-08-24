@@ -48,6 +48,74 @@ function points(items, kind) {
   return items.map((x) => `<li class="${kind}">${esc(x)}</li>`).join("");
 }
 const watched = (code) => Boolean(research[code]?.watched);
+const finitePositive = (value) => {
+  const number = Number(value);
+  return Number.isFinite(number) && number > 0 ? number : null;
+};
+function setWatched(stock, active, at = new Date().toISOString()) {
+  const code = String(stock.code);
+  research[code] ||= {};
+  research[code].watched = active;
+  if (active) {
+    research[code].watch_added_at = at;
+    research[code].watch_entry_price = finitePositive(stock.price);
+    research[code].watch_shares = 100;
+    research[code].watch_basis = "追加時";
+  } else {
+    delete research[code].watch_added_at;
+    delete research[code].watch_entry_price;
+    delete research[code].watch_shares;
+    delete research[code].watch_basis;
+  }
+  storage.write("tenbagger-research-v1", research);
+}
+function initializeWatchPositions(nextStocks) {
+  let changed = false;
+  const startedAt = new Date().toISOString();
+  nextStocks.forEach((stock) => {
+    const saved = research[stock.code];
+    if (!saved?.watched || finitePositive(saved.watch_entry_price)) return;
+    const entryPrice = finitePositive(stock.price);
+    if (!entryPrice) return;
+    saved.watch_added_at ||= startedAt;
+    saved.watch_entry_price = entryPrice;
+    saved.watch_shares = 100;
+    saved.watch_basis = "機能開始時";
+    changed = true;
+  });
+  if (changed) storage.write("tenbagger-research-v1", research);
+}
+function positionData(stock) {
+  const saved = research[stock.code] || {};
+  const entryPrice = finitePositive(saved.watch_entry_price);
+  const currentPrice = finitePositive(stock.price);
+  if (!saved.watched || !entryPrice || !currentPrice) return null;
+  const shares = finitePositive(saved.watch_shares) || 100;
+  const cost = entryPrice * shares;
+  const value = currentPrice * shares;
+  const profit = value - cost;
+  return {saved, shares, entryPrice, currentPrice, cost, value, profit, rate: profit / cost};
+}
+const signedYen = (value) => `${value >= 0 ? "+" : "−"}${yen(Math.abs(value))}`;
+const signedPct = (value) => `${value >= 0 ? "+" : "−"}${Math.abs(value * 100).toFixed(1)}%`;
+function positionPanel(stock) {
+  if (!watched(stock.code)) return "";
+  const position = positionData(stock);
+  if (!position) return '<div class="positionPanel"><p>株価データ取得後に仮想損益を計算します。</p></div>';
+  const migrated = position.saved.watch_basis === "機能開始時";
+  const tone = position.profit >= 0 ? "gain" : "loss";
+  return `<section class="positionPanel"><div class="positionHead"><div><small>ウォッチリスト仮想運用</small><h5>仮想100株ポジション</h5></div><strong class="${tone}">${signedYen(position.profit)}（${signedPct(position.rate)}）</strong></div><div class="positionGrid"><div><span>登録日時</span><b>${date(position.saved.watch_added_at)}</b></div><div><span>取得基準株価</span><b>${yen(position.entryPrice)}</b></div><div><span>投資額</span><b>${yen(position.cost)}</b></div><div><span>最新評価額</span><b>${yen(position.value)}</b></div></div><p class="positionNote">${migrated ? "既存登録のため、機能開始時の保存株価を取得基準にしています。" : "ウォッチ追加時の保存株価を取得基準にしています。"} 実際の約定・保有ではなく、株価は保存データの最新値（リアルタイムではありません）です。</p></section>`;
+}
+function portfolioSummary(items) {
+  const positions = items.map(positionData).filter(Boolean);
+  if (!positions.length) return "";
+  const cost = positions.reduce((sum, item) => sum + item.cost, 0);
+  const value = positions.reduce((sum, item) => sum + item.value, 0);
+  const profit = value - cost;
+  const rate = cost ? profit / cost : 0;
+  const tone = profit >= 0 ? "gain" : "loss";
+  return `<section class="portfolioSummary"><div><small>ウォッチリスト仮想運用</small><h3>${positions.length}銘柄・各100株</h3><p>実際の売買ではなく、ブラウザに保存した追加時株価との比較です。</p></div><div class="portfolioStats"><span>投資額<b>${yen(cost)}</b></span><span>最新評価額<b>${yen(value)}</b></span><span>評価損益<b class="${tone}">${signedYen(profit)}</b></span><span>損益率<b class="${tone}">${signedPct(rate)}</b></span></div></section>`;
+}
 const classification = (stock) =>
   globalThis.JapaneseLabels?.classification(stock) ||
   "業種分類は企業IRで確認";
@@ -63,7 +131,7 @@ function workbench(s) {
   const growth = scenario.growth ?? Math.round((s.scenario_growth_default ?? 0.05) * 100);
   const targetPer = scenario.per ?? s.scenario_per_default ?? 15;
   const years = scenario.years ?? 3;
-  return `<section class="workbench"><div class="workbenchHead"><div><small>第4～5段階／投資判断ワークベンチ</small><h4>3年シナリオ・投資メモ</h4></div><button class="watchButton ${watched(s.code) ? "active" : ""}" data-action="watch" data-code="${esc(s.code)}">${watched(s.code) ? "★ 監視中" : "☆ ウォッチ"}</button></div><div class="scenarioGrid"><label>基準1株利益（EPS）<input type="number" step="0.01" data-scenario="eps" data-code="${esc(s.code)}" value="${esc(eps)}"></label><label>年成長率<input type="number" step="1" data-scenario="growth" data-code="${esc(s.code)}" value="${esc(growth)}"><i>%</i></label><label>出口株価収益率（PER）<input type="number" step="0.5" data-scenario="per" data-code="${esc(s.code)}" value="${esc(targetPer)}"><i>倍</i></label><label>期間<input type="number" min="1" max="10" data-scenario="years" data-code="${esc(s.code)}" value="${esc(years)}"><i>年</i></label></div><button class="calculate" data-action="calculate" data-code="${esc(s.code)}">シナリオを計算</button><div class="scenarioResult" id="scenario-${esc(s.code)}">入力値から将来株価と年率リターンを試算します。</div><div class="journal"><label>確信度<select data-journal="conviction" data-code="${esc(s.code)}"><option value="">未設定</option>${["低","中","高"].map((x) => `<option ${saved.conviction === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>調査メモ<textarea data-journal="note" data-code="${esc(s.code)}" placeholder="投資仮説、確認事項、撤退条件を記録">${esc(saved.note || "")}</textarea></label></div><p class="estimateNote">メモとウォッチリストはこのブラウザ内に保存されます。シナリオは予測ではなく感応度確認です。</p></section>`;
+  return `<section class="workbench"><div class="workbenchHead"><div><small>第4～5段階／投資判断ワークベンチ</small><h4>3年シナリオ・投資メモ</h4></div><button class="watchButton ${watched(s.code) ? "active" : ""}" data-action="watch" data-code="${esc(s.code)}">${watched(s.code) ? "★ 監視中" : "☆ ウォッチ"}</button></div>${positionPanel(s)}<div class="scenarioGrid"><label>基準1株利益（EPS）<input type="number" step="0.01" data-scenario="eps" data-code="${esc(s.code)}" value="${esc(eps)}"></label><label>年成長率<input type="number" step="1" data-scenario="growth" data-code="${esc(s.code)}" value="${esc(growth)}"><i>%</i></label><label>出口株価収益率（PER）<input type="number" step="0.5" data-scenario="per" data-code="${esc(s.code)}" value="${esc(targetPer)}"><i>倍</i></label><label>期間<input type="number" min="1" max="10" data-scenario="years" data-code="${esc(s.code)}" value="${esc(years)}"><i>年</i></label></div><button class="calculate" data-action="calculate" data-code="${esc(s.code)}">シナリオを計算</button><div class="scenarioResult" id="scenario-${esc(s.code)}">入力値から将来株価と年率リターンを試算します。</div><div class="journal"><label>確信度<select data-journal="conviction" data-code="${esc(s.code)}"><option value="">未設定</option>${["低","中","高"].map((x) => `<option ${saved.conviction === x ? "selected" : ""}>${x}</option>`).join("")}</select></label><label>調査メモ<textarea data-journal="note" data-code="${esc(s.code)}" placeholder="投資仮説、確認事項、撤退条件を記録">${esc(saved.note || "")}</textarea></label></div><p class="estimateNote">メモとウォッチリストはこのブラウザ内に保存されます。シナリオは予測ではなく感応度確認です。</p></section>`;
 }
 function safeUrl(value) {
   try {
@@ -205,14 +273,20 @@ function render() {
     risk: (a, b) => (b.risk_score || 0) - (a.risk_score || 0),
   }[sort];
   shown.sort(sorter);
-  $("summary").textContent =
-    `保存済み ${stocks.length.toLocaleString()}社／表示 ${shown.length.toLocaleString()}社`;
+  const portfolio = mode === "watchlist"
+    ? shown.map(positionData).filter(Boolean)
+    : [];
+  const portfolioProfit = portfolio.reduce((sum, item) => sum + item.profit, 0);
+  const portfolioCost = portfolio.reduce((sum, item) => sum + item.cost, 0);
+  $("summary").textContent = mode === "watchlist" && portfolio.length
+    ? `仮想保有 ${portfolio.length}銘柄（各100株）／評価損益 ${signedYen(portfolioProfit)}（${signedPct(portfolioProfit / portfolioCost)}）`
+    : `保存済み ${stocks.length.toLocaleString()}社／表示 ${shown.length.toLocaleString()}社`;
   if (!shown.length) {
     $("cards").innerHTML =
       '<div class="empty">該当する銘柄はありません。成長指標は次回の銘柄更新後から順次表示されます。</div>';
     return;
   }
-  $("cards").innerHTML = shown
+  $("cards").innerHTML = (mode === "watchlist" ? portfolioSummary(shown) : "") + shown
     .map(
       (s) =>
         `<article class="stock"><div class="stockHead"><div><small>${esc(s.code)} ・ ${esc(s.market)}</small><h3>${esc(s.name)}</h3><button class="reportButton" data-action="report" data-code="${esc(s.code)}">詳細レポートを発行</button></div><div class="headScores"><span class="miniScore">総合 <b>${s.investment_score ?? 0}</b></span><span class="miniScore">候補 <b>${s.tenbagger_score ?? 0}</b></span><span class="miniScore">変化 <b>${s.catalyst_score ?? 0}</b></span><span class="badge ${s.passed ? "pass" : ""}">${s.passed ? "清原条件合格" : "条件外"}</span></div></div><div class="metrics">${metric("株価", yen(s.price))}${metric("時価総額", yen(s.market_cap, true), s.market_cap >= 2e9)}${metric("PER", s.per == null ? "—" : num(s.per) + "倍", s.per > 0 && s.per <= 10)}${metric("PBR", s.pbr == null ? "—" : num(s.pbr) + "倍", s.pbr > 0 && s.pbr <= 1)}${metric("ネットキャッシュ", yen(s.net_cash, true))}${metric("ネットキャッシュ比率", num(s.net_cash_ratio), s.net_cash_ratio >= 1, true)}</div>${mode === "kiyohara" ? kiyohara(s) : `${tenbagger(s)}${catalysts(s)}${decisionPanel(s)}${["decision","watchlist"].includes(mode) ? workbench(s) : ""}`}${s.financial_date ? `<p class="asof">財務基準日：${esc(s.financial_date)}</p>` : ""}${s.error ? `<p class="errorText">取得失敗：${esc(s.error)}</p>` : ""}</article>`,
@@ -253,6 +327,7 @@ async function load() {
           : "待機中";
     $("stateBadge").className = status.state === "running" ? "running" : "";
     stocks = result.stocks || [];
+    initializeWatchPositions(stocks);
     modelReview = review || {};
     aiReview = independentReview || {};
     updateAlerts(stocks, result.generated_at);
@@ -284,8 +359,7 @@ $("cards").addEventListener("click", (event) => {
     return;
   }
   if (button.dataset.action === "watch") {
-    research[code].watched = !research[code].watched;
-    storage.write("tenbagger-research-v1", research);
+    setWatched(stock, !watched(code));
     render();
     return;
   }
@@ -331,6 +405,6 @@ document.querySelectorAll(".modeTabs button").forEach((button) =>
     render();
   }),
 );
-globalThis.ScreenerApp = {renderGovernance};
+globalThis.ScreenerApp = {renderGovernance, setWatched, positionData, positionPanel};
 load();
 setInterval(load, 60000);

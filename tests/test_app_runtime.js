@@ -57,6 +57,21 @@ setImmediate(() => {
   assert.match(element("cards").innerHTML, /情報技術／業務用ソフトウェア/);
   assert.doesNotMatch(element("cards").innerHTML, /Technology/);
   assert.equal(element("progressText").textContent, "100.0%");
+  global.ScreenerApp.setWatched(
+    {code:"9999", price:1000}, true, "2026-08-24T00:00:00Z",
+  );
+  const saved = JSON.parse(localStorage.getItem("tenbagger-research-v1"))["9999"];
+  assert.equal(saved.watch_entry_price, 1000);
+  assert.equal(saved.watch_shares, 100);
+  assert.equal(saved.watch_added_at, "2026-08-24T00:00:00Z");
+  const position = global.ScreenerApp.positionPanel({code:"9999", price:1200});
+  assert.match(position, /仮想100株ポジション/);
+  assert.match(position, /\+¥20,000/);
+  assert.match(position, /\+20\.0%/);
+  global.ScreenerApp.setWatched({code:"9999", price:1200}, false);
+  const removed = JSON.parse(localStorage.getItem("tenbagger-research-v1"))["9999"];
+  assert.equal(removed.watched, false);
+  assert.equal(removed.watch_entry_price, undefined);
   global.ScreenerApp.renderGovernance();
   assert.match(element("cards").innerHTML, /判定精度を継続検証/);
   assert.match(element("cards").innerHTML, /自動変更なし/);

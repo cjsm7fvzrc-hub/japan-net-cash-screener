@@ -24,7 +24,11 @@ const html = window.StockReport.build({
   technical_signals: ["株価が50日移動平均を上回る"], technical_cautions: [],
   tenbagger_reasons: ["成長"], catalyst_signals: ["加速"], risk_protections: ["現金"],
   tenbagger_risks: [], catalyst_checks: [], risk_reasons: [],
-}, {conviction:"高", note:"決算を継続確認"});
+}, {
+  conviction:"高", note:"決算を継続確認", watched:true,
+  watch_entry_price:800, watch_shares:100,
+  watch_added_at:"2026-08-23T00:00:00Z",
+});
 
 assert.match(html, /詳細投資判断レポート/);
 assert.match(html, /52週チャート・需給分析/);
@@ -39,4 +43,7 @@ assert.match(html, /具体的な事業内容、収益構成/);
 assert.doesNotMatch(html, /An English business description/);
 assert.doesNotMatch(html, /EXECUTIVE SUMMARY/);
 assert.doesNotMatch(html, /テスト<&>/);
+assert.match(html, /仮想100株ポジション/);
+assert.match(html, /\+¥20,000/);
+assert.match(html, /\+25\.0%/);
 console.log("report runtime ok");
