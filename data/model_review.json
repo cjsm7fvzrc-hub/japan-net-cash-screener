@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T22:26:54.772823Z",
+  "generated_at": "2026-08-29T23:27:24.332654Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 1,
@@ -11,7 +11,7 @@
       "market_cap": 88.7,
       "per": 84.4,
       "pbr": 88.4,
-      "net_cash_ratio": 86.0,
+      "net_cash_ratio": 86.1,
       "revenue_cagr_3y": 84.8,
       "technical_score": 100.0
     },
