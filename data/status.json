@@ -1,15 +1,15 @@
 {
-  "state": "completed",
-  "message": "全上場銘柄の更新が完了しました",
+  "state": "running",
+  "message": "次回の自動処理へ継続します",
   "total": 4259,
-  "processed": 4259,
+  "processed": 200,
   "success": 4259,
   "failed": 0,
   "passed": 73,
-  "progress": 100.0,
-  "started_at": "2026-08-30T15:22:19.407624Z",
-  "updated_at": "2026-08-30T15:23:45.409379Z",
+  "progress": 4.7,
+  "started_at": "2026-08-30T16:22:16.171521Z",
+  "updated_at": "2026-08-30T16:27:42.524409Z",
   "completed_at": "2026-08-30T15:23:45.409352Z",
-  "next_cursor": 0,
+  "next_cursor": 200,
   "universe_version": 2
 }
