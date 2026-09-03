@@ -1,10 +1,14 @@
 :root {
-  --ink: #122019;
-  --green: #0c6246;
-  --deep: #092c21;
-  --lime: #cce86c;
-  --paper: #f3f1e8;
-  --line: #d7d8cd;
+  --ink: #354052;
+  --green: #5d8f86;
+  --deep: #789eaa;
+  --lime: #ffe3a3;
+  --paper: #fff9f4;
+  --line: #ddd9e8;
+  --pink: #f7d8df;
+  --mint: #d9eee6;
+  --lavender: #e7e0f4;
+  --sky: #dcecf7;
 }
 * {
   box-sizing: border-box;
@@ -13,10 +17,10 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: Arial, "Noto Sans JP", sans-serif;
+  font-family: "Hiragino Maru Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
 }
 header {
-  background: var(--deep);
+  background: linear-gradient(135deg, #789eaa, #a894bc);
   color: white;
   padding: 26px max(5vw, 22px) 76px;
 }
@@ -34,7 +38,8 @@ nav {
   border: 1px solid #8dac9f;
   border-radius: 50%;
   color: var(--lime);
-  font-family: Georgia;
+  font-family: inherit;
+  background: #ffffff22;
 }
 .hero {
   max-width: 1180px;
@@ -54,10 +59,7 @@ nav {
   color: #9db7ac;
 }
 .hero h1 {
-  font:
-    500 clamp(43px, 6vw, 76px) / 1.08 Georgia,
-    "Yu Mincho",
-    serif;
+  font: 700 clamp(43px, 6vw, 76px) / 1.12 "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
   margin: 15px 0;
 }
 .hero h1 em {
@@ -70,9 +72,10 @@ nav {
   line-height: 1.9;
 }
 .formula {
-  background: #123c30;
-  border: 1px solid #426b5e;
+  background: #ffffff20;
+  border: 1px solid #ffffff70;
   padding: 28px;
+  border-radius: 22px;
 }
 .formula small {
   color: #9db7ac;
@@ -105,6 +108,8 @@ main {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   box-shadow: 0 12px 35px #23372d14;
+  border-radius: 20px;
+  overflow: hidden;
 }
 .criteria div {
   padding: 24px 18px;
@@ -130,9 +135,10 @@ main {
   margin: 70px 0;
 }
 .statusPanel {
-  background: #fff;
+  background: var(--sky);
   border: 1px solid var(--line);
   padding: 28px;
+  border-radius: 20px;
 }
 .statusTitle,
 .heading {
@@ -243,6 +249,8 @@ main {
   background: #fff;
   border: 1px solid var(--line);
   padding: 21px;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px #6e718112;
 }
 .stockHead {
   display: flex;
@@ -289,7 +297,7 @@ main {
   font-size: 13px;
 }
 .metric.main {
-  background: #f0f6dc;
+  background: var(--mint);
 }
 .yes {
   color: #247149;
@@ -315,7 +323,7 @@ main {
   color: #6f7a73;
 }
 footer {
-  background: #e3e0d5;
+  background: var(--lavender);
   padding: 25px;
   text-align: center;
   font-size: 11px;
@@ -470,3 +478,18 @@ footer {
 @media (max-width:800px) { .scenarioGrid { grid-template-columns:repeat(2,1fr) } .journal { grid-template-columns:1fr } }
 @media (max-width:800px) { .positionGrid,.portfolioStats { grid-template-columns:repeat(2,1fr) } .portfolioSummary { grid-template-columns:1fr } }
 @media (max-width:800px) { .governanceHero { align-items:stretch; flex-direction:column } .reviewStats,.coverageGrid { grid-template-columns:repeat(2,1fr) } .proposalGrid,.auditGrid { grid-template-columns:1fr } }
+
+/* Pastel theme refinements */
+button, input, select, textarea { font-family: inherit }
+.statusTitle h2,.heading h2,.passCount b,.miniScore b,.tenbagger h4,.catalyst h4,
+.decisionPanel h4,.workbench h4,.positionHead h5,.portfolioSummary h3,.alertItem h3,
+.governanceHero h3,.reviewStats b,.reviewBlock > h3,.auditHead h3 { font-family: inherit }
+.tenbagger { background:var(--mint); border-color:#bcded1; border-radius:14px }
+.catalyst,.workbench,.proposal { background:#fff4dc; border-color:#ead5aa; border-radius:14px }
+.decisionPanel,.reviewBlock { background:#f8f5fc; border-color:#d9cfea; border-radius:14px }
+.governanceHero,.portfolioSummary { background:linear-gradient(135deg,#789eaa,#9c88ad) }
+.modeTabs button.active { background:var(--lavender); border-radius:12px 12px 0 0 }
+.watchButton,.calculate,.reportButton,.researchLinks a { border-radius:999px }
+.toolbar input[type="search"],.toolbar select,.scenarioGrid input,.journal select,.journal textarea { border-radius:12px }
+.badge,.typeBadge,.signal,.proposalStatus { border-radius:999px }
+

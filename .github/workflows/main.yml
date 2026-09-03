@@ -49,15 +49,19 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Collect and save stock data
+        id: collect
+        continue-on-error: true
         env:
           BATCH_SIZE: ${{ inputs.batch_size || '200' }}
           RESET_CURSOR: ${{ inputs.reset || 'false' }}
         run: python scripts/update_stocks.py
 
       - name: Update model evaluation history
+        if: steps.collect.outcome == 'success'
         run: python scripts/model_governance.py
 
       - name: Commit stored results
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -65,6 +69,10 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -m "data: update stock screening results"
           git push
+
+      - name: Fail workflow if collection failed
+        if: steps.collect.outcome == 'failure'
+        run: exit 1
 
   deploy:
     needs: update
@@ -94,3 +102,4 @@ jobs:
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
+

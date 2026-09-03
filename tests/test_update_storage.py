@@ -1,14 +1,35 @@
 import sqlite3
 import sys
 import unittest
+from unittest.mock import Mock, patch
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
-from update_stocks import init_db, save
+from update_stocks import discover_jpx_url, init_db, request_with_retry, save
 
 
 class UpdateStorageTests(unittest.TestCase):
+    @patch("update_stocks.request_with_retry")
+    def test_discovers_current_jpx_excel_link(self, mocked_request):
+        response = Mock()
+        response.text = '<a href="/files/new-list.xlsx">東証上場銘柄一覧</a>'
+        mocked_request.return_value = response
+        self.assertEqual(
+            discover_jpx_url(),
+            "https://www.jpx.co.jp/files/new-list.xlsx",
+        )
+
+    @patch("update_stocks.time.sleep")
+    @patch("update_stocks.requests.get")
+    def test_request_retries_temporary_failure(self, mocked_get, _mocked_sleep):
+        failed = Mock()
+        failed.raise_for_status.side_effect = __import__("requests").HTTPError("temporary")
+        success = Mock()
+        success.raise_for_status.return_value = None
+        mocked_get.side_effect = [failed, success]
+        self.assertIs(request_with_retry("https://example.com", attempts=2), success)
+
     def test_phase2_fields_migrate_and_save(self):
         conn = sqlite3.connect(":memory:")
         init_db(conn)
@@ -46,3 +67,4 @@ class UpdateStorageTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

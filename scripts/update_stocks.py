@@ -8,6 +8,7 @@ import sqlite3
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urljoin
 
 import pandas as pd
 import requests
@@ -24,7 +25,8 @@ DATA = ROOT / "data"
 DB_PATH = DATA / "stocks.db"
 STATUS_PATH = DATA / "status.json"
 RESULTS_PATH = DATA / "results.json"
-JPX_URL = "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls"
+JPX_LIST_URL = "https://www.jpx.co.jp/markets/statistics-equities/misc/01.html"
+JPX_FALLBACK_URL = "https://www.jpx.co.jp/markets/statistics-equities/misc/tvdivq0000001vg2-att/data_j.xls"
 BATCH_SIZE = max(1, int(os.getenv("BATCH_SIZE", "200")))
 RESET_CURSOR = os.getenv("RESET_CURSOR", "false").lower() == "true"
 UNIVERSE_VERSION = 2
@@ -52,9 +54,41 @@ def load_status() -> dict:
     return {"next_cursor": 0}
 
 
+def request_with_retry(url: str, attempts: int = 3) -> requests.Response:
+    last_error = None
+    for attempt in range(attempts):
+        try:
+            response = requests.get(url, timeout=45, headers={"User-Agent": "Mozilla/5.0"})
+            response.raise_for_status()
+            return response
+        except requests.RequestException as exc:
+            last_error = exc
+            if attempt + 1 < attempts:
+                time.sleep(2 ** attempt)
+    raise last_error or RuntimeError(f"JPXから取得できませんでした: {url}")
+
+
+def discover_jpx_url() -> str:
+    response = request_with_retry(JPX_LIST_URL)
+    from bs4 import BeautifulSoup
+    soup = BeautifulSoup(response.text, "html.parser")
+    candidates = []
+    for link in soup.select("a[href]"):
+        href = str(link.get("href") or "")
+        label = link.get_text(" ", strip=True)
+        if href.lower().endswith((".xls", ".xlsx")) and ("一覧" in label or "data_j" in href.lower()):
+            candidates.append(urljoin(JPX_LIST_URL, href))
+    if not candidates:
+        raise RuntimeError("JPX上場銘柄一覧ページからExcelのリンクを検出できませんでした")
+    return candidates[0]
+
+
 def fetch_jpx() -> list[dict]:
-    response = requests.get(JPX_URL, timeout=45, headers={"User-Agent": "Mozilla/5.0"})
-    response.raise_for_status()
+    try:
+        excel_url = discover_jpx_url()
+    except (requests.RequestException, RuntimeError):
+        excel_url = JPX_FALLBACK_URL
+    response = request_with_retry(excel_url)
     frame = pd.read_excel(io.BytesIO(response.content), dtype=str)
     code_col = next(c for c in frame.columns if "コード" in str(c))
     name_col = next(c for c in frame.columns if "銘柄名" in str(c))
@@ -72,6 +106,17 @@ def fetch_jpx() -> list[dict]:
             "market": market,
         })
     return rows
+
+
+def load_cached_universe() -> list[dict]:
+    if not DB_PATH.exists():
+        return []
+    with sqlite3.connect(DB_PATH) as conn:
+        return [
+            {"code": code, "ticker": f"{code}.T", "name": name, "market": market}
+            for code, name, market in conn.execute("SELECT code, name, market FROM stocks ORDER BY code")
+            if eligible_market(market)
+        ]
 
 
 def init_db(conn: sqlite3.Connection) -> None:
@@ -407,16 +452,23 @@ def export(conn: sqlite3.Connection) -> list[dict]:
 
 def main() -> None:
     DATA.mkdir(exist_ok=True)
-    universe = fetch_jpx()
-    total = len(universe)
     previous = load_status()
+    using_cached_universe = False
+    try:
+        universe = fetch_jpx()
+    except (requests.RequestException, RuntimeError, ValueError, KeyError) as exc:
+        universe = load_cached_universe()
+        if not universe:
+            raise RuntimeError("JPX銘柄一覧を取得できず、保存済み一覧もありません") from exc
+        using_cached_universe = True
+    total = len(universe)
     universe_changed = previous.get("universe_version") != UNIVERSE_VERSION
     cursor = 0 if RESET_CURSOR or universe_changed else int(previous.get("next_cursor") or 0)
     if cursor >= total:
         cursor = 0
     end = min(cursor + BATCH_SIZE, total)
     target = universe[cursor:end]
-    status = {"state": "running", "message": "銘柄データを収集中", "total": total,
+    status = {"state": "running", "message": "保存済み銘柄一覧で更新を継続中" if using_cached_universe else "銘柄データを収集中", "total": total,
               "processed": cursor, "success": 0, "failed": 0, "passed": 0,
               "progress": round(cursor / total * 100, 1) if total else 0,
               "started_at": now(), "updated_at": now(), "completed_at": previous.get("completed_at"),
@@ -466,4 +518,15 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as exc:
+        previous = load_status()
+        previous.update({
+            "state": "error",
+            "message": f"更新に失敗しました: {type(exc).__name__}: {str(exc)[:180]}",
+            "updated_at": now(),
+        })
+        write_json(STATUS_PATH, previous)
+        raise
+
