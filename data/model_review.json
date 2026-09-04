@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-04T06:37:42.252422Z",
+  "generated_at": "2026-09-04T07:32:19.908516Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 2,
   "current_quality": {
-    "stock_count": 4252,
+    "stock_count": 4254,
     "failed_count": 0,
     "coverage_percent": {
       "price": 100.0,
