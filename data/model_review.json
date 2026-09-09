@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-09-09T10:34:20.315744Z",
+  "generated_at": "2026-09-09T11:34:04.552617Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 3,
   "current_quality": {
     "stock_count": 4254,
-    "failed_count": 0,
+    "failed_count": 1,
     "coverage_percent": {
       "price": 100.0,
       "market_cap": 88.6,
