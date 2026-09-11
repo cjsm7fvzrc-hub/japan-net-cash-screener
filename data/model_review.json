@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-11T14:33:32.946515Z",
+  "generated_at": "2026-09-11T15:33:29.230216Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 3,
@@ -15,7 +15,15 @@
       "revenue_cagr_3y": 84.8,
       "technical_score": 100.0
     },
-    "anomalies": []
+    "anomalies": [
+      {
+        "code": "6191",
+        "name": "エアトリ",
+        "field": "配当利回り",
+        "value": 34.67,
+        "reason": "想定範囲外"
+      }
+    ]
   },
   "horizons": [
     {
@@ -118,6 +126,14 @@
     }
   ],
   "proposals": [
+    {
+      "id": "data-quality-outliers",
+      "status": "承認待ち",
+      "title": "異常値の取得時検証を強化",
+      "evidence": "想定範囲外の数値を1件検出しました。",
+      "change": "単位・桁を検証し、疑わしい値は判定から除外する案です。",
+      "risk": "正常な特殊値を除外する可能性があります。"
+    },
     {
       "id": "keep-current-until-sample",
       "status": "観測中",
