@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T12:34:44.068727Z",
+  "generated_at": "2026-09-12T13:30:47.813615Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 3,
@@ -20,7 +20,7 @@
         "code": "6191",
         "name": "エアトリ",
         "field": "配当利回り",
-        "value": 34.67,
+        "value": 29.82,
         "reason": "想定範囲外"
       }
     ]
