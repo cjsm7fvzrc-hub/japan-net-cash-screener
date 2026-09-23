@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T17:08:00.855779Z",
+  "generated_at": "2026-09-23T20:27:39.582508Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 4,
@@ -13,7 +13,7 @@
       "pbr": 88.4,
       "net_cash_ratio": 85.9,
       "revenue_cagr_3y": 84.8,
-      "technical_score": 99.9
+      "technical_score": 100.0
     },
     "anomalies": []
   },
@@ -21,20 +21,20 @@
     {
       "days": 30,
       "candidates": {
-        "count": 0,
-        "average_return": null,
-        "median_return": null,
-        "gain_30_rate": null,
-        "loss_20_rate": null
+        "count": 120,
+        "average_return": 0.035015,
+        "median_return": 0.01419,
+        "gain_30_rate": 0.016667,
+        "loss_20_rate": 0.008333
       },
       "control": {
-        "count": 0,
-        "average_return": null,
-        "median_return": null,
-        "gain_30_rate": null,
-        "loss_20_rate": null
+        "count": 120,
+        "average_return": -0.01078,
+        "median_return": -0.011569,
+        "gain_30_rate": 0.0,
+        "loss_20_rate": 0.016667
       },
-      "excess_return": null
+      "excess_return": 0.045795
     },
     {
       "days": 90,
