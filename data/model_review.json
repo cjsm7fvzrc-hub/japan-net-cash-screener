@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T06:49:22.489967Z",
+  "generated_at": "2026-09-30T13:51:13.018300Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 6,
@@ -21,20 +21,20 @@
     {
       "days": 30,
       "candidates": {
-        "count": 120,
-        "average_return": 0.035015,
-        "median_return": 0.01419,
-        "gain_30_rate": 0.016667,
+        "count": 240,
+        "average_return": 0.02289,
+        "median_return": 0.009423,
+        "gain_30_rate": 0.0125,
         "loss_20_rate": 0.008333
       },
       "control": {
-        "count": 120,
-        "average_return": -0.01078,
-        "median_return": -0.011569,
+        "count": 240,
+        "average_return": -0.012114,
+        "median_return": -0.011391,
         "gain_30_rate": 0.0,
         "loss_20_rate": 0.016667
       },
-      "excess_return": 0.045795
+      "excess_return": 0.035004
     },
     {
       "days": 90,
