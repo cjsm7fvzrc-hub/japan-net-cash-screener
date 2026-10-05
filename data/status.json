@@ -1,15 +1,15 @@
 {
   "state": "running",
   "message": "次回の自動処理へ継続します",
-  "total": 4254,
-  "processed": 1600,
+  "total": 4257,
+  "processed": 1800,
   "success": 4253,
   "failed": 1,
   "passed": 85,
-  "progress": 37.6,
-  "started_at": "2026-10-04T21:28:01.305157Z",
-  "updated_at": "2026-10-04T21:33:11.045614Z",
+  "progress": 42.3,
+  "started_at": "2026-10-05T00:57:01.913083Z",
+  "updated_at": "2026-10-05T01:04:12.509428Z",
   "completed_at": "2026-10-03T08:09:31.505579Z",
-  "next_cursor": 1600,
+  "next_cursor": 1800,
   "universe_version": 2
 }
