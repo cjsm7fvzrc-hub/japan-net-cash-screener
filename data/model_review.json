@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-10-08T09:01:26.060164Z",
+  "generated_at": "2026-10-08T16:35:54.112418Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 7,
   "current_quality": {
-    "stock_count": 4272,
-    "failed_count": 3,
+    "stock_count": 4257,
+    "failed_count": 2,
     "coverage_percent": {
-      "price": 99.9,
+      "price": 100.0,
       "market_cap": 88.4,
       "per": 84.0,
-      "pbr": 88.1,
-      "net_cash_ratio": 85.8,
+      "pbr": 88.0,
+      "net_cash_ratio": 85.7,
       "revenue_cagr_3y": 84.6,
-      "technical_score": 99.9
+      "technical_score": 100.0
     },
     "anomalies": []
   },
