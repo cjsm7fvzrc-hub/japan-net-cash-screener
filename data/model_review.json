@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-13T16:06:28.149057Z",
+  "generated_at": "2026-10-13T21:17:44.601418Z",
   "status": "検証運用中",
   "policy_version": 1,
-  "snapshot_count": 7,
+  "snapshot_count": 8,
   "current_quality": {
     "stock_count": 4257,
     "failed_count": 0,
