@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-18T06:00:18.961902Z",
+  "generated_at": "2026-10-18T11:12:58.235002Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 8,
@@ -9,7 +9,7 @@
     "coverage_percent": {
       "price": 100.0,
       "market_cap": 88.4,
-      "per": 84.0,
+      "per": 83.9,
       "pbr": 88.1,
       "net_cash_ratio": 85.7,
       "revenue_cagr_3y": 84.6,
