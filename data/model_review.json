@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-27T21:27:57.478045Z",
+  "generated_at": "2026-10-28T01:28:46.504962Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 9,
@@ -11,8 +11,8 @@
       "market_cap": 88.5,
       "per": 84.0,
       "pbr": 88.1,
-      "net_cash_ratio": 85.8,
-      "revenue_cagr_3y": 85.6,
+      "net_cash_ratio": 85.9,
+      "revenue_cagr_3y": 85.7,
       "technical_score": 100.0
     },
     "anomalies": []
@@ -21,20 +21,20 @@
     {
       "days": 30,
       "candidates": {
-        "count": 598,
-        "average_return": 0.009584,
-        "median_return": -0.002986,
-        "gain_30_rate": 0.016722,
-        "loss_20_rate": 0.011706
+        "count": 717,
+        "average_return": 0.006957,
+        "median_return": -0.006747,
+        "gain_30_rate": 0.016736,
+        "loss_20_rate": 0.015342
       },
       "control": {
-        "count": 599,
-        "average_return": -0.016474,
-        "median_return": -0.010586,
-        "gain_30_rate": 0.003339,
-        "loss_20_rate": 0.03172
+        "count": 717,
+        "average_return": -0.024165,
+        "median_return": -0.013424,
+        "gain_30_rate": 0.004184,
+        "loss_20_rate": 0.040446
       },
-      "excess_return": 0.026058
+      "excess_return": 0.031122
     },
     {
       "days": 90,
