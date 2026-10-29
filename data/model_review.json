@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T07:12:32.454260Z",
+  "generated_at": "2026-10-29T14:27:34.717985Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 9,
@@ -12,7 +12,7 @@
       "per": 84.0,
       "pbr": 88.1,
       "net_cash_ratio": 85.8,
-      "revenue_cagr_3y": 85.9,
+      "revenue_cagr_3y": 85.8,
       "technical_score": 100.0
     },
     "anomalies": []
