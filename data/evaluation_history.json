@@ -23182,6 +23182,2176 @@
         }
       ],
       "outcomes": {}
+    },
+    {
+      "key": "2026-W45",
+      "captured_at": "2026-11-05T06:51:32.486948Z",
+      "policy_version": 1,
+      "candidates": [
+        {
+          "code": "8700",
+          "name": "丸八証券",
+          "price": 1980.0,
+          "investment_score": 94,
+          "tenbagger_score": 96,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "4486",
+          "name": "ユナイトアンドグロウ",
+          "price": 750.0,
+          "investment_score": 89,
+          "tenbagger_score": 92,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "4262",
+          "name": "ニフティライフスタイル",
+          "price": 1330.0,
+          "investment_score": 69,
+          "tenbagger_score": 92,
+          "risk_score": 15,
+          "type": "成長初動型"
+        },
+        {
+          "code": "3454",
+          "name": "ファーストブラザーズ",
+          "price": 1271.0,
+          "investment_score": 81,
+          "tenbagger_score": 89,
+          "risk_score": 36,
+          "type": "変身型"
+        },
+        {
+          "code": "9560",
+          "name": "プログリット",
+          "price": 1035.0,
+          "investment_score": 79,
+          "tenbagger_score": 87,
+          "risk_score": 5,
+          "type": "変身型"
+        },
+        {
+          "code": "8747",
+          "name": "豊トラスティ証券",
+          "price": 1851.0,
+          "investment_score": 64,
+          "tenbagger_score": 87,
+          "risk_score": 30,
+          "type": "変身型"
+        },
+        {
+          "code": "8927",
+          "name": "明豊エンタープライズ",
+          "price": 447.0,
+          "investment_score": 78,
+          "tenbagger_score": 86,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "2408",
+          "name": "ＫＧ情報",
+          "price": 817.0,
+          "investment_score": 88,
+          "tenbagger_score": 85,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "7175",
+          "name": "今村証券",
+          "price": 1647.0,
+          "investment_score": 83,
+          "tenbagger_score": 85,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "6572",
+          "name": "オープングループ",
+          "price": 214.0,
+          "investment_score": 81,
+          "tenbagger_score": 85,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "4380",
+          "name": "Ｍマート",
+          "price": 660.0,
+          "investment_score": 77,
+          "tenbagger_score": 84,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "7608",
+          "name": "エスケイジャパン",
+          "price": 691.0,
+          "investment_score": 70,
+          "tenbagger_score": 84,
+          "risk_score": 15,
+          "type": "変身型"
+        },
+        {
+          "code": "9554",
+          "name": "ＡＶｉＣ",
+          "price": 1464.0,
+          "investment_score": 82,
+          "tenbagger_score": 83,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "7131",
+          "name": "のむら産業",
+          "price": 3320.0,
+          "investment_score": 78,
+          "tenbagger_score": 82,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "7937",
+          "name": "ツツミ",
+          "price": 2445.0,
+          "investment_score": 63,
+          "tenbagger_score": 82,
+          "risk_score": 15,
+          "type": "変身型"
+        },
+        {
+          "code": "7089",
+          "name": "フォースタートアップス",
+          "price": 1369.0,
+          "investment_score": 85,
+          "tenbagger_score": 81,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "5136",
+          "name": "ｔｒｉｐｌａ",
+          "price": 2565.0,
+          "investment_score": 81,
+          "tenbagger_score": 81,
+          "risk_score": 5,
+          "type": "変身型"
+        },
+        {
+          "code": "3494",
+          "name": "マリオン",
+          "price": 385.0,
+          "investment_score": 77,
+          "tenbagger_score": 81,
+          "risk_score": 36,
+          "type": "変身型"
+        },
+        {
+          "code": "6392",
+          "name": "ヤマダコーポレーション",
+          "price": 6970.0,
+          "investment_score": 71,
+          "tenbagger_score": 81,
+          "risk_score": 15,
+          "type": "成長初動型"
+        },
+        {
+          "code": "6391",
+          "name": "加地テック",
+          "price": 5470.0,
+          "investment_score": 67,
+          "tenbagger_score": 81,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "4976",
+          "name": "東洋ドライルーブ",
+          "price": 1677.0,
+          "investment_score": 62,
+          "tenbagger_score": 81,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "5018",
+          "name": "ＭＯＲＥＳＣＯ",
+          "price": 2730.0,
+          "investment_score": 81,
+          "tenbagger_score": 80,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "142A",
+          "name": "ジンジブ",
+          "price": 865.0,
+          "investment_score": 75,
+          "tenbagger_score": 80,
+          "risk_score": 36,
+          "type": "変身型"
+        },
+        {
+          "code": "6191",
+          "name": "エアトリ",
+          "price": 1384.0,
+          "investment_score": 67,
+          "tenbagger_score": 80,
+          "risk_score": 15,
+          "type": "成長初動型"
+        },
+        {
+          "code": "4624",
+          "name": "イサム塗料",
+          "price": 4175.0,
+          "investment_score": 65,
+          "tenbagger_score": 80,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "343A",
+          "name": "ＩＡＣＥトラベル",
+          "price": 1275.0,
+          "investment_score": 64,
+          "tenbagger_score": 80,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "3377",
+          "name": "バイク王＆カンパニー",
+          "price": 469.0,
+          "investment_score": 61,
+          "tenbagger_score": 80,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "8624",
+          "name": "いちよし証券",
+          "price": 1380.0,
+          "investment_score": 80,
+          "tenbagger_score": 79,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "2970",
+          "name": "ＧＬＣ　ＧＲＯＵＰ",
+          "price": 1089.0,
+          "investment_score": 80,
+          "tenbagger_score": 79,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "228A",
+          "name": "オプロ",
+          "price": 1620.0,
+          "investment_score": 74,
+          "tenbagger_score": 79,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "3558",
+          "name": "ジェイドグループ",
+          "price": 1579.0,
+          "investment_score": 74,
+          "tenbagger_score": 79,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "4224",
+          "name": "ロンシール工業",
+          "price": 2388.0,
+          "investment_score": 65,
+          "tenbagger_score": 79,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "6927",
+          "name": "ヘリオス　テクノ　ホールディング",
+          "price": 960.0,
+          "investment_score": 64,
+          "tenbagger_score": 79,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "7264",
+          "name": "ムロコーポレーション",
+          "price": 1340.0,
+          "investment_score": 62,
+          "tenbagger_score": 79,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "2173",
+          "name": "博展",
+          "price": 781.0,
+          "investment_score": 62,
+          "tenbagger_score": 79,
+          "risk_score": 15,
+          "type": "変身型"
+        },
+        {
+          "code": "1814",
+          "name": "大末建設",
+          "price": 3955.0,
+          "investment_score": 83,
+          "tenbagger_score": 78,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "4765",
+          "name": "ＳＢＩグローバルアセットマネジメント",
+          "price": 614.0,
+          "investment_score": 83,
+          "tenbagger_score": 78,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "373A",
+          "name": "リップス",
+          "price": 1438.0,
+          "investment_score": 61,
+          "tenbagger_score": 78,
+          "risk_score": 15,
+          "type": "成長初動型"
+        },
+        {
+          "code": "1443",
+          "name": "技研ホールディングス",
+          "price": 254.0,
+          "investment_score": 70,
+          "tenbagger_score": 77,
+          "risk_score": 18,
+          "type": "清原型"
+        },
+        {
+          "code": "7374",
+          "name": "コンフィデンス・インターワークス",
+          "price": 1433.0,
+          "investment_score": 64,
+          "tenbagger_score": 77,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "476A",
+          "name": "辻・本郷ＩＴコンサルティング",
+          "price": 2167.0,
+          "investment_score": 62,
+          "tenbagger_score": 77,
+          "risk_score": 23,
+          "type": "変身型"
+        },
+        {
+          "code": "334A",
+          "name": "ビジュアル・プロセッシング・ジャパン",
+          "price": 1055.0,
+          "investment_score": 59,
+          "tenbagger_score": 77,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "3565",
+          "name": "アセンテック",
+          "price": 489.0,
+          "investment_score": 59,
+          "tenbagger_score": 77,
+          "risk_score": 15,
+          "type": "変身型"
+        },
+        {
+          "code": "248A",
+          "name": "キッズスター",
+          "price": 800.0,
+          "investment_score": 55,
+          "tenbagger_score": 77,
+          "risk_score": 30,
+          "type": "成長初動型"
+        },
+        {
+          "code": "4377",
+          "name": "ワンキャリア",
+          "price": 2480.0,
+          "investment_score": 80,
+          "tenbagger_score": 76,
+          "risk_score": 5,
+          "type": "変身型"
+        },
+        {
+          "code": "4102",
+          "name": "丸尾カルシウム",
+          "price": 1469.0,
+          "investment_score": 78,
+          "tenbagger_score": 76,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "7409",
+          "name": "ＡｅｒｏＥｄｇｅ",
+          "price": 1115.0,
+          "investment_score": 76,
+          "tenbagger_score": 76,
+          "risk_score": 49,
+          "type": "変身型"
+        },
+        {
+          "code": "7087",
+          "name": "ウイルテック",
+          "price": 1346.0,
+          "investment_score": 73,
+          "tenbagger_score": 76,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "3611",
+          "name": "マツオカコーポレーション",
+          "price": 2315.0,
+          "investment_score": 69,
+          "tenbagger_score": 76,
+          "risk_score": 15,
+          "type": "変身型"
+        },
+        {
+          "code": "7080",
+          "name": "スポーツフィールド",
+          "price": 825.0,
+          "investment_score": 68,
+          "tenbagger_score": 76,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "3513",
+          "name": "イチカワ",
+          "price": 3475.0,
+          "investment_score": 61,
+          "tenbagger_score": 76,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "7521",
+          "name": "ムサシ",
+          "price": 2646.0,
+          "investment_score": 58,
+          "tenbagger_score": 76,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "3236",
+          "name": "プロパスト",
+          "price": 293.0,
+          "investment_score": 74,
+          "tenbagger_score": 75,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "2436",
+          "name": "共同ピーアール",
+          "price": 561.0,
+          "investment_score": 74,
+          "tenbagger_score": 75,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "8617",
+          "name": "光世証券",
+          "price": 594.0,
+          "investment_score": 72,
+          "tenbagger_score": 75,
+          "risk_score": 22,
+          "type": "変身型"
+        },
+        {
+          "code": "4012",
+          "name": "アクシス",
+          "price": 1654.0,
+          "investment_score": 71,
+          "tenbagger_score": 75,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "7902",
+          "name": "ソノコム",
+          "price": 1014.0,
+          "investment_score": 62,
+          "tenbagger_score": 75,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "6159",
+          "name": "ミクロン精密",
+          "price": 1955.0,
+          "investment_score": 62,
+          "tenbagger_score": 75,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "6743",
+          "name": "大同信号",
+          "price": 1100.0,
+          "investment_score": 62,
+          "tenbagger_score": 75,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "6307",
+          "name": "サンセイ",
+          "price": 470.0,
+          "investment_score": 58,
+          "tenbagger_score": 75,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "5368",
+          "name": "日本インシュレーション",
+          "price": 964.0,
+          "investment_score": 55,
+          "tenbagger_score": 75,
+          "risk_score": 30,
+          "type": "清原型"
+        },
+        {
+          "code": "4051",
+          "name": "ＧＭＯフィナンシャルゲート",
+          "price": 6220.0,
+          "investment_score": 80,
+          "tenbagger_score": 74,
+          "risk_score": 5,
+          "type": "変身型"
+        },
+        {
+          "code": "4247",
+          "name": "ポバール興業",
+          "price": 1382.0,
+          "investment_score": 78,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "9820",
+          "name": "エムティジェネックス",
+          "price": 3600.0,
+          "investment_score": 76,
+          "tenbagger_score": 74,
+          "risk_score": 12,
+          "type": "清原型"
+        },
+        {
+          "code": "5834",
+          "name": "ＳＢＩリーシングサービス",
+          "price": 2478.0,
+          "investment_score": 74,
+          "tenbagger_score": 74,
+          "risk_score": 12,
+          "type": "継続観察"
+        },
+        {
+          "code": "5592",
+          "name": "くすりの窓口",
+          "price": 2239.0,
+          "investment_score": 74,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "3915",
+          "name": "テラスカイ",
+          "price": 2183.0,
+          "investment_score": 72,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "7033",
+          "name": "マネジメントソリューションズ",
+          "price": 1637.0,
+          "investment_score": 65,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "7544",
+          "name": "スリーエフ",
+          "price": 549.0,
+          "investment_score": 63,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "3640",
+          "name": "電算",
+          "price": 2635.0,
+          "investment_score": 60,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "9867",
+          "name": "ソレキア",
+          "price": 9990.0,
+          "investment_score": 58,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "500A",
+          "name": "ＴＯブックス",
+          "price": 3410.0,
+          "investment_score": 58,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "6176",
+          "name": "ブランジスタ",
+          "price": 916.0,
+          "investment_score": 58,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "1768",
+          "name": "ソネック",
+          "price": 1016.0,
+          "investment_score": 57,
+          "tenbagger_score": 74,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "7187",
+          "name": "ジェイリース",
+          "price": 1292.0,
+          "investment_score": 55,
+          "tenbagger_score": 74,
+          "risk_score": 51,
+          "type": "継続観察"
+        },
+        {
+          "code": "8739",
+          "name": "スパークス・グループ",
+          "price": 2333.0,
+          "investment_score": 82,
+          "tenbagger_score": 73,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "3710",
+          "name": "ジョルダン",
+          "price": 679.0,
+          "investment_score": 77,
+          "tenbagger_score": 73,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "369A",
+          "name": "エータイ",
+          "price": 2470.0,
+          "investment_score": 73,
+          "tenbagger_score": 73,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "6549",
+          "name": "ディーエムソリューションズ",
+          "price": 1021.0,
+          "investment_score": 73,
+          "tenbagger_score": 73,
+          "risk_score": 36,
+          "type": "成長初動型"
+        },
+        {
+          "code": "6357",
+          "name": "三精テクノロジーズ",
+          "price": 2450.0,
+          "investment_score": 72,
+          "tenbagger_score": 73,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "4119",
+          "name": "日本ピグメントホールディングス",
+          "price": 6180.0,
+          "investment_score": 71,
+          "tenbagger_score": 73,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "6039",
+          "name": "日本動物高度医療センター",
+          "price": 967.0,
+          "investment_score": 68,
+          "tenbagger_score": 73,
+          "risk_score": 36,
+          "type": "成長初動型"
+        },
+        {
+          "code": "410A",
+          "name": "ＧＭＯコマース",
+          "price": 1237.0,
+          "investment_score": 59,
+          "tenbagger_score": 73,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "7351",
+          "name": "グッドパッチ",
+          "price": 455.0,
+          "investment_score": 58,
+          "tenbagger_score": 73,
+          "risk_score": 15,
+          "type": "成長初動型"
+        },
+        {
+          "code": "5587",
+          "name": "インバウンドプラットフォーム",
+          "price": 774.0,
+          "investment_score": 57,
+          "tenbagger_score": 73,
+          "risk_score": 15,
+          "type": "成長初動型"
+        },
+        {
+          "code": "6149",
+          "name": "小田原エンジニアリング",
+          "price": 2014.0,
+          "investment_score": 54,
+          "tenbagger_score": 73,
+          "risk_score": 42,
+          "type": "変身型"
+        },
+        {
+          "code": "621A",
+          "name": "オーディオストック",
+          "price": 1133.0,
+          "investment_score": 54,
+          "tenbagger_score": 73,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "598A",
+          "name": "チャットプラス",
+          "price": 1116.0,
+          "investment_score": 54,
+          "tenbagger_score": 73,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "8226",
+          "name": "理経",
+          "price": 340.0,
+          "investment_score": 52,
+          "tenbagger_score": 73,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "8944",
+          "name": "ランドビジネス",
+          "price": 252.0,
+          "investment_score": 51,
+          "tenbagger_score": 73,
+          "risk_score": 36,
+          "type": "成長初動型"
+        },
+        {
+          "code": "589A",
+          "name": "ネイス",
+          "price": 1007.0,
+          "investment_score": 49,
+          "tenbagger_score": 73,
+          "risk_score": 36,
+          "type": "変身型"
+        },
+        {
+          "code": "8935",
+          "name": "ＦＪネクストホールディングス",
+          "price": 1885.0,
+          "investment_score": 79,
+          "tenbagger_score": 72,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "4172",
+          "name": "Ｈｉクラテス",
+          "price": 2145.0,
+          "investment_score": 75,
+          "tenbagger_score": 72,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "5817",
+          "name": "ＪＭＡＣＳ",
+          "price": 898.0,
+          "investment_score": 75,
+          "tenbagger_score": 72,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "5572",
+          "name": "Ｒｉｄｇｅ－ｉ",
+          "price": 3170.0,
+          "investment_score": 74,
+          "tenbagger_score": 72,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "7075",
+          "name": "ＱＬＳホールディングス",
+          "price": 992.0,
+          "investment_score": 74,
+          "tenbagger_score": 72,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "7792",
+          "name": "コラントッテ",
+          "price": 1421.0,
+          "investment_score": 69,
+          "tenbagger_score": 72,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "9475",
+          "name": "昭文社ホールディングス",
+          "price": 565.0,
+          "investment_score": 67,
+          "tenbagger_score": 72,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "6071",
+          "name": "ＩＢＪ",
+          "price": 884.0,
+          "investment_score": 66,
+          "tenbagger_score": 72,
+          "risk_score": 36,
+          "type": "変身型"
+        },
+        {
+          "code": "156A",
+          "name": "マテリアルグループ",
+          "price": 745.0,
+          "investment_score": 63,
+          "tenbagger_score": 72,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "1997",
+          "name": "暁飯島工業",
+          "price": 4130.0,
+          "investment_score": 62,
+          "tenbagger_score": 72,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "6356",
+          "name": "日本ギア工業",
+          "price": 1166.0,
+          "investment_score": 61,
+          "tenbagger_score": 72,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "3826",
+          "name": "システムインテグレータ",
+          "price": 477.0,
+          "investment_score": 60,
+          "tenbagger_score": 72,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "7378",
+          "name": "アシロ",
+          "price": 1458.0,
+          "investment_score": 58,
+          "tenbagger_score": 72,
+          "risk_score": 15,
+          "type": "変身型"
+        },
+        {
+          "code": "6229",
+          "name": "オーケーエム",
+          "price": 1443.0,
+          "investment_score": 57,
+          "tenbagger_score": 72,
+          "risk_score": 15,
+          "type": "清原型"
+        },
+        {
+          "code": "367A",
+          "name": "プリモグローバルホールディングス",
+          "price": 3110.0,
+          "investment_score": 55,
+          "tenbagger_score": 72,
+          "risk_score": 63,
+          "type": "変身型"
+        },
+        {
+          "code": "8622",
+          "name": "水戸証券",
+          "price": 769.0,
+          "investment_score": 79,
+          "tenbagger_score": 71,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "5355",
+          "name": "日本坩堝",
+          "price": 665.0,
+          "investment_score": 73,
+          "tenbagger_score": 71,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "4412",
+          "name": "サイエンスアーツ",
+          "price": 1216.0,
+          "investment_score": 70,
+          "tenbagger_score": 71,
+          "risk_score": 13,
+          "type": "変身型"
+        },
+        {
+          "code": "5575",
+          "name": "Ｇｌｏｂｅｅ",
+          "price": 1191.0,
+          "investment_score": 70,
+          "tenbagger_score": 71,
+          "risk_score": 17,
+          "type": "継続観察"
+        },
+        {
+          "code": "9218",
+          "name": "メンタルヘルステクノロジーズ",
+          "price": 760.0,
+          "investment_score": 69,
+          "tenbagger_score": 71,
+          "risk_score": 36,
+          "type": "変身型"
+        },
+        {
+          "code": "7069",
+          "name": "サイバー・バズ",
+          "price": 478.0,
+          "investment_score": 67,
+          "tenbagger_score": 71,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "9252",
+          "name": "ラストワンマイル",
+          "price": 3465.0,
+          "investment_score": 66,
+          "tenbagger_score": 71,
+          "risk_score": 36,
+          "type": "変身型"
+        },
+        {
+          "code": "5139",
+          "name": "オープンワーク",
+          "price": 910.0,
+          "investment_score": 65,
+          "tenbagger_score": 71,
+          "risk_score": 12,
+          "type": "継続観察"
+        },
+        {
+          "code": "7677",
+          "name": "ヤシマキザイ",
+          "price": 2513.0,
+          "investment_score": 62,
+          "tenbagger_score": 71,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "7687",
+          "name": "ミクリード",
+          "price": 471.0,
+          "investment_score": 61,
+          "tenbagger_score": 71,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "1381",
+          "name": "アクシーズ",
+          "price": 3425.0,
+          "investment_score": 60,
+          "tenbagger_score": 71,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "151A",
+          "name": "ダイブグループ",
+          "price": 595.0,
+          "investment_score": 60,
+          "tenbagger_score": 71,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "8705",
+          "name": "日産証券グループ",
+          "price": 203.0,
+          "investment_score": 56,
+          "tenbagger_score": 71,
+          "risk_score": 0,
+          "type": "変身型"
+        },
+        {
+          "code": "291A",
+          "name": "リスキル",
+          "price": 2015.0,
+          "investment_score": 56,
+          "tenbagger_score": 71,
+          "risk_score": 0,
+          "type": "変身型"
+        }
+      ],
+      "control": [
+        {
+          "code": "5444",
+          "name": "大和工業",
+          "price": 11795.0,
+          "investment_score": 28,
+          "tenbagger_score": 26,
+          "risk_score": 12,
+          "type": "継続観察"
+        },
+        {
+          "code": "550A",
+          "name": "ソフトテックス",
+          "price": 2250.0,
+          "investment_score": 29,
+          "tenbagger_score": 30,
+          "risk_score": 8,
+          "type": "継続観察"
+        },
+        {
+          "code": "6069",
+          "name": "トレンダーズ",
+          "price": 651.0,
+          "investment_score": 30,
+          "tenbagger_score": 25,
+          "risk_score": 12,
+          "type": "継続観察"
+        },
+        {
+          "code": "5384",
+          "name": "フジミインコーポレーテッド",
+          "price": 3140.0,
+          "investment_score": 31,
+          "tenbagger_score": 18,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "6237",
+          "name": "イワキポンプ",
+          "price": 3905.0,
+          "investment_score": 48,
+          "tenbagger_score": 41,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "504A",
+          "name": "イノバセル",
+          "price": 498.0,
+          "investment_score": 15,
+          "tenbagger_score": 7,
+          "risk_score": 22,
+          "type": "継続観察"
+        },
+        {
+          "code": "3946",
+          "name": "トーモク",
+          "price": 4305.0,
+          "investment_score": 35,
+          "tenbagger_score": 38,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "2806",
+          "name": "ユタカフーズ",
+          "price": 1978.0,
+          "investment_score": 18,
+          "tenbagger_score": 20,
+          "risk_score": 42,
+          "type": "継続観察"
+        },
+        {
+          "code": "1678",
+          "name": "ＮＥＸＴ　ＦＵＮＤＳ　インド株式指数・Ｎｉｆｔｙ　５０　連動型上場投信",
+          "price": 295.29998779296875,
+          "investment_score": 12,
+          "tenbagger_score": 0,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "3234",
+          "name": "森ヒルズリート投資法人",
+          "price": 115200.0,
+          "investment_score": 20,
+          "tenbagger_score": 15,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "9444",
+          "name": "トーシンホールディングス",
+          "price": 175.0,
+          "investment_score": 24,
+          "tenbagger_score": 17,
+          "risk_score": 44,
+          "type": "継続観察"
+        },
+        {
+          "code": "600A",
+          "name": "ニッセイＥＴＦ　ラッセル２０００",
+          "price": 1856.0,
+          "investment_score": 12,
+          "tenbagger_score": 0,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "3769",
+          "name": "ＧＭＯペイメントゲートウェイ",
+          "price": 8563.0,
+          "investment_score": 44,
+          "tenbagger_score": 38,
+          "risk_score": 27,
+          "type": "成長初動型"
+        },
+        {
+          "code": "6268",
+          "name": "ナブテスコ",
+          "price": 4311.0,
+          "investment_score": 37,
+          "tenbagger_score": 17,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "8793",
+          "name": "ＮＥＣキャピタルソリューション",
+          "price": 4020.0,
+          "investment_score": 36,
+          "tenbagger_score": 24,
+          "risk_score": 58,
+          "type": "継続観察"
+        },
+        {
+          "code": "5742",
+          "name": "エヌアイシ・オートテック",
+          "price": 707.0,
+          "investment_score": 28,
+          "tenbagger_score": 33,
+          "risk_score": 56,
+          "type": "継続観察"
+        },
+        {
+          "code": "7681",
+          "name": "レオクラン",
+          "price": 930.0,
+          "investment_score": 41,
+          "tenbagger_score": 25,
+          "risk_score": 66,
+          "type": "成長初動型"
+        },
+        {
+          "code": "7097",
+          "name": "さくらさくプラス",
+          "price": 2795.0,
+          "investment_score": 23,
+          "tenbagger_score": 29,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "5446",
+          "name": "北越メタル",
+          "price": 1005.0,
+          "investment_score": 28,
+          "tenbagger_score": 32,
+          "risk_score": 27,
+          "type": "継続観察"
+        },
+        {
+          "code": "1326",
+          "name": "ＳＰＤＲゴールド・シェア",
+          "price": 58210.0,
+          "investment_score": 14,
+          "tenbagger_score": 3,
+          "risk_score": 5,
+          "type": "継続観察"
+        },
+        {
+          "code": "488A",
+          "name": "ｉシェアーズ　円高フォーカス　ＥＴＦ",
+          "price": 772.0999755859375,
+          "investment_score": 14,
+          "tenbagger_score": 5,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "7150",
+          "name": "島根銀行",
+          "price": 466.0,
+          "investment_score": 22,
+          "tenbagger_score": 25,
+          "risk_score": 22,
+          "type": "成長初動型"
+        },
+        {
+          "code": "2040",
+          "name": "ＮＥＸＴ　ＮＯＴＥＳ　ＮＹダウ・ダブル・ブル・ドルヘッジ　ＥＴＮ",
+          "price": 37560.0,
+          "investment_score": 13,
+          "tenbagger_score": 5,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "1357",
+          "name": "ＮＥＸＴ　ＦＵＮＤＳ　日経平均ダブルインバース・インデックス連動型上場投信",
+          "price": 2896.0,
+          "investment_score": 12,
+          "tenbagger_score": 0,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "2555",
+          "name": "東証ＲＥＩＴ　ＥＴＦ",
+          "price": 1706.0,
+          "investment_score": 12,
+          "tenbagger_score": 0,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "4755",
+          "name": "楽天グループ",
+          "price": 628.5,
+          "investment_score": 25,
+          "tenbagger_score": 15,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "6080",
+          "name": "Ｍ＆Ａキャピタルパートナーズ",
+          "price": 4195.0,
+          "investment_score": 56,
+          "tenbagger_score": 40,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "6728",
+          "name": "アルバック",
+          "price": 7659.0,
+          "investment_score": 42,
+          "tenbagger_score": 29,
+          "risk_score": 27,
+          "type": "継続観察"
+        },
+        {
+          "code": "1592",
+          "name": "上場インデックスファンドＪＰＸ日経インデックス４００",
+          "price": 3323.0,
+          "investment_score": 16,
+          "tenbagger_score": 8,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "379A",
+          "name": "グローバルＸ　Ｓ＆Ｐ５００　ＥＴＦ（ダイナミック・プロテクション）",
+          "price": 1330.0,
+          "investment_score": 20,
+          "tenbagger_score": 12,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "2840",
+          "name": "ｉＦｒｅｅＥＴＦ　ＮＡＳＤＡＱ１００（為替ヘッジなし）",
+          "price": 2622.0,
+          "investment_score": 16,
+          "tenbagger_score": 8,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "8079",
+          "name": "正栄食品工業",
+          "price": 4185.0,
+          "investment_score": 26,
+          "tenbagger_score": 20,
+          "risk_score": 22,
+          "type": "継続観察"
+        },
+        {
+          "code": "7513",
+          "name": "コジマ",
+          "price": 1362.0,
+          "investment_score": 32,
+          "tenbagger_score": 20,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "1550",
+          "name": "ＭＡＸＩＳ　海外株式（ＭＳＣＩコクサイ）上場投信",
+          "price": 8009.0,
+          "investment_score": 16,
+          "tenbagger_score": 8,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "1866",
+          "name": "北野建設",
+          "price": 1090.0,
+          "investment_score": 31,
+          "tenbagger_score": 24,
+          "risk_score": 22,
+          "type": "継続観察"
+        },
+        {
+          "code": "9946",
+          "name": "ミニストップ",
+          "price": 1792.0,
+          "investment_score": 15,
+          "tenbagger_score": 6,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "1694",
+          "name": "ＷｉｓｄｏｍＴｒｅｅ　ニッケル上場投資信託",
+          "price": 2144.0,
+          "investment_score": 14,
+          "tenbagger_score": 3,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "7611",
+          "name": "ハイデイ日高",
+          "price": 3140.0,
+          "investment_score": 34,
+          "tenbagger_score": 38,
+          "risk_score": 15,
+          "type": "変身型"
+        },
+        {
+          "code": "9278",
+          "name": "ブックオフグループホールディングス",
+          "price": 2378.0,
+          "investment_score": 29,
+          "tenbagger_score": 36,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "2558",
+          "name": "ＭＡＸＩＳ米国株式（Ｓ＆Ｐ５００）上場投信",
+          "price": 3475.0,
+          "investment_score": 15,
+          "tenbagger_score": 6,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "3169",
+          "name": "ミサワ",
+          "price": 696.0,
+          "investment_score": 37,
+          "tenbagger_score": 33,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "7827",
+          "name": "オービス",
+          "price": 1615.0,
+          "investment_score": 40,
+          "tenbagger_score": 44,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "1496",
+          "name": "ｉシェアーズ　米ドル建て投資適格社債　ＥＴＦ（為替ヘッジあり）",
+          "price": 1589.0,
+          "investment_score": 14,
+          "tenbagger_score": 5,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "1366",
+          "name": "ｉＦｒｅｅＥＴＦ　日経平均ダブルインバース・インデックス",
+          "price": 7326.0,
+          "investment_score": 14,
+          "tenbagger_score": 3,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "2337",
+          "name": "いちご",
+          "price": 425.0,
+          "investment_score": 29,
+          "tenbagger_score": 37,
+          "risk_score": 66,
+          "type": "成長初動型"
+        },
+        {
+          "code": "2842",
+          "name": "ｉＦｒｅｅＥＴＦ　ＮＡＳＤＡＱ１００インバース",
+          "price": 12440.0,
+          "investment_score": 12,
+          "tenbagger_score": 0,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "5290",
+          "name": "ベルテクスコーポレーション",
+          "price": 1192.0,
+          "investment_score": 33,
+          "tenbagger_score": 33,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "3667",
+          "name": "ｅｎｉｓｈ",
+          "price": 17.0,
+          "investment_score": 18,
+          "tenbagger_score": 14,
+          "risk_score": 42,
+          "type": "継続観察"
+        },
+        {
+          "code": "4432",
+          "name": "ウイングアーク１ｓｔ",
+          "price": 3605.0,
+          "investment_score": 49,
+          "tenbagger_score": 42,
+          "risk_score": 36,
+          "type": "成長初動型"
+        },
+        {
+          "code": "630A",
+          "name": "ニッセイＥＴＦ　ＴＯＰＩＸ（年４回決算型）",
+          "price": 1447.0,
+          "investment_score": 17,
+          "tenbagger_score": 11,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "2790",
+          "name": "ナフコ",
+          "price": 1973.0,
+          "investment_score": 35,
+          "tenbagger_score": 34,
+          "risk_score": 8,
+          "type": "継続観察"
+        },
+        {
+          "code": "182A",
+          "name": "ＭＡＸＩＳ米国国債２０年超上場投信（為替ヘッジなし）",
+          "price": 483.79998779296875,
+          "investment_score": 14,
+          "tenbagger_score": 5,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "578A",
+          "name": "グローバルＸ　シルバー　ＥＴＦ（為替ヘッジあり）",
+          "price": 192.5,
+          "investment_score": 15,
+          "tenbagger_score": 4,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "9872",
+          "name": "北恵",
+          "price": 951.0,
+          "investment_score": 39,
+          "tenbagger_score": 39,
+          "risk_score": 22,
+          "type": "継続観察"
+        },
+        {
+          "code": "9635",
+          "name": "武蔵野興業",
+          "price": 2300.0,
+          "investment_score": 26,
+          "tenbagger_score": 29,
+          "risk_score": 58,
+          "type": "継続観察"
+        },
+        {
+          "code": "9832",
+          "name": "オートバックスセブン",
+          "price": 1562.0,
+          "investment_score": 33,
+          "tenbagger_score": 30,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "3174",
+          "name": "ハピネス・アンド・ディ",
+          "price": 324.0,
+          "investment_score": 14,
+          "tenbagger_score": 13,
+          "risk_score": 44,
+          "type": "継続観察"
+        },
+        {
+          "code": "6897",
+          "name": "ツインバード",
+          "price": 467.0,
+          "investment_score": 44,
+          "tenbagger_score": 30,
+          "risk_score": 12,
+          "type": "継続観察"
+        },
+        {
+          "code": "8358",
+          "name": "スルガ銀行",
+          "price": 2750.0,
+          "investment_score": 30,
+          "tenbagger_score": 20,
+          "risk_score": 22,
+          "type": "成長初動型"
+        },
+        {
+          "code": "3778",
+          "name": "さくらインターネット",
+          "price": 3035.0,
+          "investment_score": 39,
+          "tenbagger_score": 29,
+          "risk_score": 56,
+          "type": "継続観察"
+        },
+        {
+          "code": "7177",
+          "name": "ＧＭＯフィナンシャルホールディングス",
+          "price": 1018.0,
+          "investment_score": 43,
+          "tenbagger_score": 40,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "6786",
+          "name": "ＲＶＨ",
+          "price": 38.0,
+          "investment_score": 27,
+          "tenbagger_score": 20,
+          "risk_score": 16,
+          "type": "継続観察"
+        },
+        {
+          "code": "5527",
+          "name": "ｐｒｏｐｅｒｔｙ　ｔｅｃｈｎｏｌｏｇｉｅｓ",
+          "price": 849.0,
+          "investment_score": 38,
+          "tenbagger_score": 33,
+          "risk_score": 22,
+          "type": "継続観察"
+        },
+        {
+          "code": "4199",
+          "name": "ワンダープラネット",
+          "price": 724.0,
+          "investment_score": 11,
+          "tenbagger_score": 3,
+          "risk_score": 30,
+          "type": "継続観察"
+        },
+        {
+          "code": "4728",
+          "name": "トーセ",
+          "price": 625.0,
+          "investment_score": 38,
+          "tenbagger_score": 41,
+          "risk_score": 30,
+          "type": "継続観察"
+        },
+        {
+          "code": "2552",
+          "name": "上場インデックスファンドＪリート（東証ＲＥＩＴ指数）隔月分配型（ミニ）",
+          "price": 1781.0,
+          "investment_score": 16,
+          "tenbagger_score": 4,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "4275",
+          "name": "カーリット",
+          "price": 1746.0,
+          "investment_score": 40,
+          "tenbagger_score": 36,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "9535",
+          "name": "広島ガス",
+          "price": 402.0,
+          "investment_score": 40,
+          "tenbagger_score": 42,
+          "risk_score": 51,
+          "type": "継続観察"
+        },
+        {
+          "code": "8084",
+          "name": "ＲＹＯＤＥＮ",
+          "price": 2188.0,
+          "investment_score": 48,
+          "tenbagger_score": 25,
+          "risk_score": 22,
+          "type": "継続観察"
+        },
+        {
+          "code": "3292",
+          "name": "イオンリート投資法人",
+          "price": 103800.0,
+          "investment_score": 20,
+          "tenbagger_score": 18,
+          "risk_score": 51,
+          "type": "継続観察"
+        },
+        {
+          "code": "6544",
+          "name": "ジャパンエレベーターサービスホールディングス",
+          "price": 1545.5,
+          "investment_score": 48,
+          "tenbagger_score": 39,
+          "risk_score": 13,
+          "type": "成長初動型"
+        },
+        {
+          "code": "3476",
+          "name": "投資法人みらい",
+          "price": 36300.0,
+          "investment_score": 27,
+          "tenbagger_score": 33,
+          "risk_score": 48,
+          "type": "継続観察"
+        },
+        {
+          "code": "5943",
+          "name": "ノーリツ",
+          "price": 2305.0,
+          "investment_score": 31,
+          "tenbagger_score": 29,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "2838",
+          "name": "ＭＡＸＩＳ米国国債７－１０年上場投信（為替ヘッジなし）",
+          "price": 8541.0,
+          "investment_score": 16,
+          "tenbagger_score": 8,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "3678",
+          "name": "メディアドゥ",
+          "price": 1259.0,
+          "investment_score": 39,
+          "tenbagger_score": 34,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "3104",
+          "name": "富士紡ホールディングス",
+          "price": 3265.0,
+          "investment_score": 55,
+          "tenbagger_score": 40,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "5631",
+          "name": "日本製鋼所",
+          "price": 5865.0,
+          "investment_score": 14,
+          "tenbagger_score": 3,
+          "risk_score": 37,
+          "type": "継続観察"
+        },
+        {
+          "code": "6235",
+          "name": "オプトラン",
+          "price": 2230.0,
+          "investment_score": 54,
+          "tenbagger_score": 33,
+          "risk_score": 20,
+          "type": "継続観察"
+        },
+        {
+          "code": "250A",
+          "name": "シマダヤ",
+          "price": 1506.0,
+          "investment_score": 37,
+          "tenbagger_score": 42,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "7272",
+          "name": "ヤマハ発動機",
+          "price": 1723.0,
+          "investment_score": 27,
+          "tenbagger_score": 23,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "1929",
+          "name": "日特建設",
+          "price": 1154.0,
+          "investment_score": 34,
+          "tenbagger_score": 33,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "4751",
+          "name": "サイバーエージェント",
+          "price": 1269.5,
+          "investment_score": 27,
+          "tenbagger_score": 18,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "1888",
+          "name": "若築建設",
+          "price": 3520.0,
+          "investment_score": 42,
+          "tenbagger_score": 40,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "5989",
+          "name": "エイチワン",
+          "price": 1329.0,
+          "investment_score": 27,
+          "tenbagger_score": 28,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "2181",
+          "name": "パーソルホールディングス",
+          "price": 291.20001220703125,
+          "investment_score": 26,
+          "tenbagger_score": 30,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "6651",
+          "name": "日東工業",
+          "price": 4135.0,
+          "investment_score": 47,
+          "tenbagger_score": 38,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "7674",
+          "name": "ＮＡＴＴＹ　ＳＷＡＮＫＹホールディングス",
+          "price": 2772.0,
+          "investment_score": 20,
+          "tenbagger_score": 26,
+          "risk_score": 53,
+          "type": "継続観察"
+        },
+        {
+          "code": "2856",
+          "name": "ｉシェアーズ　米国債３－７年　ＥＴＦ（為替ヘッジあり）",
+          "price": 625.9000244140625,
+          "investment_score": 14,
+          "tenbagger_score": 5,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "7476",
+          "name": "アズワン",
+          "price": 2461.0,
+          "investment_score": 50,
+          "tenbagger_score": 33,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "6302",
+          "name": "住友重機械工業",
+          "price": 5520.0,
+          "investment_score": 26,
+          "tenbagger_score": 20,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "2090",
+          "name": "ＮＺＡＭ　上場投信　米国国債７－１０年（為替ヘッジあり）",
+          "price": 4258.0,
+          "investment_score": 14,
+          "tenbagger_score": 5,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "4936",
+          "name": "アクシージア",
+          "price": 292.0,
+          "investment_score": 33,
+          "tenbagger_score": 35,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "7751",
+          "name": "キヤノン",
+          "price": 4672.0,
+          "investment_score": 38,
+          "tenbagger_score": 23,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "7157",
+          "name": "ライフネット生命保険",
+          "price": 1478.0,
+          "investment_score": 28,
+          "tenbagger_score": 21,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "4584",
+          "name": "キッズウェル・バイオ",
+          "price": 149.0,
+          "investment_score": 29,
+          "tenbagger_score": 27,
+          "risk_score": 37,
+          "type": "継続観察"
+        },
+        {
+          "code": "6420",
+          "name": "ガリレイホールディングス",
+          "price": 3515.0,
+          "investment_score": 46,
+          "tenbagger_score": 40,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "6479",
+          "name": "ミネベアミツミ",
+          "price": 3145.0,
+          "investment_score": 24,
+          "tenbagger_score": 18,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "6965",
+          "name": "浜松ホトニクス",
+          "price": 2117.0,
+          "investment_score": 47,
+          "tenbagger_score": 22,
+          "risk_score": 20,
+          "type": "継続観察"
+        },
+        {
+          "code": "3041",
+          "name": "ビューティカダンホールディングス",
+          "price": 366.0,
+          "investment_score": 10,
+          "tenbagger_score": 12,
+          "risk_score": 66,
+          "type": "継続観察"
+        },
+        {
+          "code": "7356",
+          "name": "Ｒｅｔｔｙ",
+          "price": 113.0,
+          "investment_score": 21,
+          "tenbagger_score": 17,
+          "risk_score": 45,
+          "type": "継続観察"
+        },
+        {
+          "code": "2235",
+          "name": "上場インデックスファンド米国株式（ダウ平均）為替ヘッジなし",
+          "price": 3573.0,
+          "investment_score": 16,
+          "tenbagger_score": 8,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "2087",
+          "name": "ＮＺＡＭ　上場投信　ＮＡＳＤＡＱ１００（為替ヘッジあり）",
+          "price": 3341.0,
+          "investment_score": 16,
+          "tenbagger_score": 8,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "6269",
+          "name": "三井海洋開発",
+          "price": 7967.0,
+          "investment_score": 27,
+          "tenbagger_score": 30,
+          "risk_score": 36,
+          "type": "成長初動型"
+        },
+        {
+          "code": "6034",
+          "name": "ＭＲＴ",
+          "price": 506.0,
+          "investment_score": 30,
+          "tenbagger_score": 23,
+          "risk_score": 30,
+          "type": "継続観察"
+        },
+        {
+          "code": "7545",
+          "name": "西松屋チェーン",
+          "price": 1880.0,
+          "investment_score": 32,
+          "tenbagger_score": 20,
+          "risk_score": 15,
+          "type": "継続観察"
+        },
+        {
+          "code": "2904",
+          "name": "一正蒲鉾",
+          "price": 753.0,
+          "investment_score": 31,
+          "tenbagger_score": 34,
+          "risk_score": 59,
+          "type": "継続観察"
+        },
+        {
+          "code": "8584",
+          "name": "ジャックス",
+          "price": 3310.0,
+          "investment_score": 43,
+          "tenbagger_score": 40,
+          "risk_score": 0,
+          "type": "清原型"
+        },
+        {
+          "code": "2917",
+          "name": "大森屋",
+          "price": 898.0,
+          "investment_score": 32,
+          "tenbagger_score": 39,
+          "risk_score": 30,
+          "type": "継続観察"
+        },
+        {
+          "code": "4523",
+          "name": "エーザイ",
+          "price": 5052.0,
+          "investment_score": 27,
+          "tenbagger_score": 9,
+          "risk_score": 8,
+          "type": "継続観察"
+        },
+        {
+          "code": "8952",
+          "name": "ジャパンリアルエステイト投資法人",
+          "price": 108100.0,
+          "investment_score": 22,
+          "tenbagger_score": 15,
+          "risk_score": 36,
+          "type": "継続観察"
+        },
+        {
+          "code": "6490",
+          "name": "ＰＩＬＬＡＲ",
+          "price": 9960.0,
+          "investment_score": 48,
+          "tenbagger_score": 28,
+          "risk_score": 0,
+          "type": "成長初動型"
+        },
+        {
+          "code": "2866",
+          "name": "グローバルＸ　米国優先証券　ＥＴＦ",
+          "price": 905.0,
+          "investment_score": 14,
+          "tenbagger_score": 5,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "3917",
+          "name": "アイリッジ",
+          "price": 479.0,
+          "investment_score": 34,
+          "tenbagger_score": 34,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "4678",
+          "name": "秀英予備校",
+          "price": 332.0,
+          "investment_score": 24,
+          "tenbagger_score": 28,
+          "risk_score": 44,
+          "type": "継続観察"
+        },
+        {
+          "code": "2221",
+          "name": "岩塚製菓",
+          "price": 3005.0,
+          "investment_score": 36,
+          "tenbagger_score": 44,
+          "risk_score": 33,
+          "type": "継続観察"
+        },
+        {
+          "code": "2644",
+          "name": "グローバルＸ　半導体関連－日本株式　ＥＴＦ",
+          "price": 3481.0,
+          "investment_score": 14,
+          "tenbagger_score": 3,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "1489",
+          "name": "ＮＥＸＴ　ＦＵＮＤＳ　日経平均高配当株５０指数連動型上場投信",
+          "price": 3531.0,
+          "investment_score": 19,
+          "tenbagger_score": 14,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "7220",
+          "name": "武蔵精密工業",
+          "price": 2432.0,
+          "investment_score": 28,
+          "tenbagger_score": 21,
+          "risk_score": 44,
+          "type": "継続観察"
+        },
+        {
+          "code": "1466",
+          "name": "ｉＦｒｅｅＥＴＦ　ＪＰＸ日経４００ダブルインバース・インデックス",
+          "price": 202.0,
+          "investment_score": 12,
+          "tenbagger_score": 0,
+          "risk_score": 0,
+          "type": "継続観察"
+        },
+        {
+          "code": "9041",
+          "name": "近鉄グループホールディングス",
+          "price": 3531.0,
+          "investment_score": 27,
+          "tenbagger_score": 30,
+          "risk_score": 36,
+          "type": "継続観察"
+        }
+      ],
+      "outcomes": {}
     }
   ]
 }
