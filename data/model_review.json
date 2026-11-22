@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-22T15:24:30.662432Z",
+  "generated_at": "2026-11-22T21:50:58.219848Z",
   "status": "検証運用中",
   "policy_version": 1,
   "snapshot_count": 13,
@@ -12,7 +12,7 @@
       "per": 84.0,
       "pbr": 88.0,
       "net_cash_ratio": 85.8,
-      "revenue_cagr_3y": 86.0,
+      "revenue_cagr_3y": 86.1,
       "technical_score": 100.0
     },
     "anomalies": []
@@ -39,20 +39,20 @@
     {
       "days": 90,
       "candidates": {
-        "count": 0,
-        "average_return": null,
-        "median_return": null,
-        "gain_30_rate": null,
-        "loss_20_rate": null
+        "count": 118,
+        "average_return": -0.058526,
+        "median_return": -0.053934,
+        "gain_30_rate": 0.033898,
+        "loss_20_rate": 0.127119
       },
       "control": {
-        "count": 0,
-        "average_return": null,
-        "median_return": null,
-        "gain_30_rate": null,
-        "loss_20_rate": null
+        "count": 120,
+        "average_return": -0.119242,
+        "median_return": -0.081007,
+        "gain_30_rate": 0.0,
+        "loss_20_rate": 0.183333
       },
-      "excess_return": null
+      "excess_return": 0.060716
     },
     {
       "days": 180,
@@ -94,19 +94,19 @@
   "score_bands": [
     {
       "label": "70点以上",
-      "count": 0,
-      "average_return": null,
-      "median_return": null,
-      "gain_30_rate": null,
-      "loss_20_rate": null
+      "count": 87,
+      "average_return": -0.064029,
+      "median_return": -0.056082,
+      "gain_30_rate": 0.034483,
+      "loss_20_rate": 0.149425
     },
     {
       "label": "55～69点",
-      "count": 0,
-      "average_return": null,
-      "median_return": null,
-      "gain_30_rate": null,
-      "loss_20_rate": null
+      "count": 31,
+      "average_return": -0.043081,
+      "median_return": -0.047452,
+      "gain_30_rate": 0.032258,
+      "loss_20_rate": 0.064516
     },
     {
       "label": "45～54点",
@@ -117,16 +117,7 @@
       "loss_20_rate": null
     }
   ],
-  "proposals": [
-    {
-      "id": "keep-current-until-sample",
-      "status": "観測中",
-      "title": "現行基準を維持",
-      "evidence": "90日評価は0件です。改善判断には最低30件を必要とします。",
-      "change": "判定基準は変更せず、標本を蓄積します。",
-      "risk": "短期的な改善機会を見送る可能性があります。"
-    }
-  ],
+  "proposals": [],
   "safety": {
     "automatic_changes": false,
     "human_approval_required": true
